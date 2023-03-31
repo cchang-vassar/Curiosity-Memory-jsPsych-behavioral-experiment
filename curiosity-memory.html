@@ -1,1 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Lexical Decision Task</title>
+		<script src="https://unpkg.com/jspsych@7.3.1"></script>
+		<script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
+		<script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script>
+		<link
+			href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css"
+			rel="stylesheet"
+			type="text/css" />
+	</head>
+	<body></body>
+	<script>
+		/* initialize jsPsych */
+		var jsPsych = initJsPsych({
+			on_finish: function () {
+				jsPsych.data.displayData();
+			},
+		});
+    
+    /* global vars */
+    var timeline = []
 
+		/* push everything to timeline */
+		timeline.push();
+
+		/* start the experiment */
+		jsPsych.run(timeline);
+	</script>
+</html>
