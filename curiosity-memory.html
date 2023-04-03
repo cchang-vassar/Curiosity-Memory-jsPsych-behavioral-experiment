@@ -6,8 +6,8 @@
 		<script src="https://unpkg.com/@jspsych/plugin-preload@1.1.2"></script>
 		<script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
 		<script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script>
-		<script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.2"></script>
 		<script src="https://unpkg.com/@jspsych/plugin-survey@0.2.1"></script>
+		<script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.2"></script>
 		<link
 			href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css"
 			rel="stylesheet"
@@ -35,6 +35,87 @@
 		/* global vars */
 		var timeline = [];
 		var test_stimuli = [{stimulus: "img/1.png"}, {stimulus: "img/2.png"}];
+
+		/* practice trials */
+
+		/* present the instructions*/
+		var instruction = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: `
+			<p>Welcome and thank you for participating in this study!</p>
+			<p>In each trial, you will be given a trivia question and then be asked to:</p>
+			<p>1) Predict the answer</p>
+			<p>2) Rate your prior knowledge on the topic (1 - 7)</p>
+			<p>3) How much do you want to know the answer (1 - 7)</p>
+			<p></p>
+			<p>Then, the card will flip over, and you will see the answer</p>
+			<p></p>
+			<p>Let's try a practice round. Press any key to move to the next slide</p>
+			`,
+		};
+
+		var practice_1 = {
+			type: jsPsychSurveyText,
+			preamble: `<p><strong>How many legs does a lobster have?</strong></p>`,
+			questions: [{prompt: "Predict the answer (type a number)"}],
+		};
+
+		var practice_2 = {
+			type: jsPsychSurvey,
+			title: "How many legs does a lobster have?",
+			pages: [
+				[
+					{
+						type: "likert",
+						prompt: "How much do you know about this topic on a scale of 1-7",
+						likert_scale_min_label: "Nothing At All",
+						likert_scale_max_label: "A lot",
+						likert_scale_values: [
+							{value: 0},
+							{value: 1},
+							{value: 2},
+							{value: 3},
+							{value: 4},
+							{value: 5},
+						],
+					},
+				],
+				[
+					{
+						type: "likert",
+						prompt: "How much do you want to know the answer on a scale of 1-7",
+						likert_scale_min_label: "Nothing At All",
+						likert_scale_max_label: "Super",
+						likert_scale_values: [
+							{value: 0},
+							{value: 1},
+							{value: 2},
+							{value: 3},
+							{value: 4},
+							{value: 5},
+						],
+					},
+				],
+			],
+		};
+
+		var practice_answer = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: `
+			<p><strong>How many legs does a lobster have?</strong></p>
+			<p></p>
+			<p>Answer: 10</p>
+			`,
+		};
+
+		var practice_end = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: `
+			<p>The practice round is over</p>
+			<p>Press any key to continue to the actual trials</p>
+			<p>Good Luck!</p>
+			`,
+		};
 
 		/* trials */
 		var prediction_trial = {
@@ -101,6 +182,11 @@
 
 		/* push everything to timeline */
 		timeline.push(preload);
+		timeline.push(instruction);
+		timeline.push(practice_1);
+		timeline.push(practice_2);
+		timeline.push(practice_answer);
+		timeline.push(practice_end);
 		timeline.push(prediction_trial);
 		timeline.push(prior_knowledge_trial);
 		timeline.push(loading_screen);
