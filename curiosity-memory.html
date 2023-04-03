@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Lexical Decision Task</title>
+		<title>Effect of Curiosity on Memory Experiment</title>
 		<script src="https://unpkg.com/jspsych@7.3.1"></script>
+		<script src="https://unpkg.com/@jspsych/plugin-preload@1.1.2"></script>
 		<script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
 		<script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script>
+		<script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.2"></script>
+		<script src="https://unpkg.com/@jspsych/plugin-survey@0.2.1"></script>
 		<link
 			href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css"
 			rel="stylesheet"
 			type="text/css" />
+		<link href="styles.css" rel="stylesheet" type="text/css" />
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/@jspsych/plugin-survey@0.2.1/css/survey.css" />
 	</head>
 	<body></body>
 	<script>
@@ -18,12 +25,85 @@
 				jsPsych.data.displayData();
 			},
 		});
-    
-    /* global vars */
-    var timeline = []
+
+		/* media preload */
+		var preload = {
+			type: jsPsychPreload,
+			images: ["img/1.jpg", "img/2.jpg"],
+		};
+
+		/* global vars */
+		var timeline = [];
+		var test_stimuli = [{stimulus: "img/1.png"}, {stimulus: "img/2.png"}];
+
+		/* trials */
+		var prediction_trial = {
+			type: jsPsychSurveyText,
+			preamble: `
+			<h1>TRIAL 1\n</h1>
+			<h3>What year was the very first model of the iPhone released?</h3>
+			`,
+			questions: [
+				{
+					prompt: "Type your prediction below (numbers only!)",
+					name: "Prediction",
+				},
+			],
+		};
+
+		var prior_knowledge_trial = {
+			type: jsPsychSurvey,
+			title: "What year was the very first model of the iPhone released?",
+			pages: [
+				[
+					{
+						type: "likert",
+						name: "prior knowledge",
+						prompt: "How much do you know about this topic?",
+						likert_scale_min_label: "Nothing at all",
+						likert_scale_max_label: "A lot!",
+						likert_scale_values: [
+							{value: 0},
+							{value: 1},
+							{value: 2},
+							{value: 3},
+							{value: 4},
+							{value: 5},
+						],
+					},
+				],
+				[
+					{
+						type: "likert",
+						name: "curiosity",
+						prompt: "How much do you want to know the answer?",
+						likert_scale_min_label: "I couldn't care less",
+						likert_scale_max_label: "I am DYING to know!",
+						likert_scale_values: [
+							{value: 0},
+							{value: 1},
+							{value: 2},
+							{value: 3},
+							{value: 4},
+							{value: 5},
+						],
+					},
+				],
+			],
+		};
+
+		var loading_screen = {
+			type: jsPsychImageKeyboardResponse,
+			stimulus: "img/1.jpg",
+			choices: "NO_KEYS",
+			trial_duration: 2000,
+		};
 
 		/* push everything to timeline */
-		timeline.push();
+		timeline.push(preload);
+		timeline.push(prediction_trial);
+		timeline.push(prior_knowledge_trial);
+		timeline.push(loading_screen);
 
 		/* start the experiment */
 		jsPsych.run(timeline);
