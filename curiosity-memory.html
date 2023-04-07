@@ -15,7 +15,8 @@
 		<link href="styles.css" rel="stylesheet" type="text/css" />
 		<link
 			rel="stylesheet"
-			href="https://unpkg.com/@jspsych/plugin-survey@0.2.1/css/survey.css" />
+			href="https://unpkg.com/@jspsych/plugin-survey@0.2.1/css/survey.css"
+			type="text/css" />
 	</head>
 	<body></body>
 	<script>
@@ -29,7 +30,7 @@
 		/* media preload */
 		var preload = {
 			type: jsPsychPreload,
-			images: ["img/1.jpg", "img/2.jpg"],
+			images: ["img/1.png", "img/2.png"],
 		};
 
 		/* global vars */
@@ -56,13 +57,17 @@
 
 		var practice_1 = {
 			type: jsPsychSurveyText,
-			preamble: `<p><strong>How many legs does a lobster have?</strong></p>`,
+			preamble: `
+			<h3><strong><em>PRACTICE TRIAL</em></strong></h3>
+			<h2><strong>How many legs does a lobster have?</strong></h2>`,
 			questions: [{prompt: "Predict the answer (type a number)"}],
+			css_classes: ["card_container"],
 		};
 
 		var practice_2 = {
 			type: jsPsychSurvey,
 			title: "How many legs does a lobster have?",
+			css_classes: ["card_container"],
 			pages: [
 				[
 					{
@@ -175,7 +180,7 @@
 
 		var loading_screen = {
 			type: jsPsychImageKeyboardResponse,
-			stimulus: "img/1.jpg",
+			stimulus: "img/1.png",
 			choices: "NO_KEYS",
 			trial_duration: 2000,
 		};
