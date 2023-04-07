@@ -30,13 +30,89 @@
 		/* media preload */
 		var preload = {
 			type: jsPsychPreload,
-			images: ["img/1.png", "img/2.png"],
+			images: fractals,
 		};
 
 		/* global vars */
 		var timeline = [];
-		var test_stimuli = [{stimulus: "img/1.png"}, {stimulus: "img/2.png"}];
+		//var test_stimuli = [{stimulus: "img/1.png"}, {stimulus: "img/2.png"}];
 
+		var trivia_questions = [
+			{question: "What year was the very first model of the iPhone released?", answer: "2007"},
+			{question: "How many single hand gestures, or mudras, are used in Indian classical dance?", answer: "28"},
+			{question: "How many books has Stephen King published?", answer: "65"},
+			{question: "What is the diameter of Earth in miles?", answer: "7917.5"},
+			{question: "How many tones are in the Vietnamese language?", answer: "6"},
+			{question: "What year did the Berlin Wall fall?", answer:"1989"},
+			{question: "How many times a day do Muslims pray?", answer: "5"},
+			{question: "How many countries are in Africa?", answer:"54"},
+			{question: "How much is in a Baker's Dozen?", answer:"13"},
+			{question: "How many double stitches does a baseball have?", answer:"108"},
+			{question: "How many constellations are there?",answer:"88"},
+			{question: "In what year was the Mexican artist Frida Kahlo born?", answer:"1907"},
+			{question: "How long is the Great Wall of China (in miles)?", answer:"13,171"},
+			{question: "How many bones is a human baby born with?", answer:"300"},
+			{question: "How many countries in Africa have French as the official language?", answer:"21"},
+			{question: "What year did the titanic sink?", answer:"1912"},
+			{question: "How many books are in the Catholic Bible?", answer:"73"},
+			{question: "How many main islands make up Japan?", answer:"4"},
+			{question: "How many people are vegan globally (in millions)?", answer:"79"},
+			{question: "In what year did the first Modern Olympic Games take place?", answer:"1896"},
+			{question: "How many moons does Neptune have?", answer:"14"},
+			{question: "How many lines are in a sonnet?", answer:"14"},
+			{question: "In what year was the first Nobel Prize awarded?", answer:"1901"},
+			{question: "How many native species of kangaroos are found in Australia?", answer:"4"},
+			{question: "How many floors are in the Burj Khalifa, the tallest building in the world?", answer:"163"},
+			{question: "How old was King Tut when he died?", answer:"19"},
+			{question: "A bar mitzvah is traditionally celebrated when Jewish males turn what age?", answer:"13"},
+			{question: "How many countries have territory in the Arctic Circle?", answer:"8"},
+			{question: "How many different animals (real or imaginary) are represented in the Chinese calendar?", answer:"12"},
+			{question: "How many soccer players should each team have on the field at the start of each match?", answer:"11"}
+		];
+		var randomized_trivia_questions = jsPsych.randomization.repeat(trivia_questions,1);
+
+		var fractals = [
+			{fractal: 'img/1.png'}, 
+			{fractal: 'img/2.png'}, 
+			{fractal: 'img/3.png'}, 
+			{fractal: 'img/4.png'}, 
+			{fractal: 'img/5.png'}, 
+			{fractal: 'img/6.png'}, 
+			{fractal: 'img/7.png'}, 
+			{fractal: 'img/8.png'}, 
+			{fractal: 'img/9.png'}, 
+			{fractal: 'img/10.png'}, 
+			{fractal: 'img/11.png'}, 
+			{fractal: 'img/12.png'}, 
+			{fractal: 'img/13.png'}, 
+			{fractal: 'img/14.png'}, 
+			{fractal: 'img/15.png'}, 
+			{fractal: 'img/16.png'}, 
+			{fractal: 'img/17.png'}, 
+			{fractal: 'img/18.png'}, 
+			{fractal: 'img/19.png'}, 
+			{fractal: 'img/20.png'}, 
+			{fractal: 'img/21.png'}, 
+			{fractal: 'img/22.png'}, 
+			{fractal: 'img/23.png'}, 
+			{fractal: 'img/24.png'}, 
+			{fractal: 'img/25.png'}, 
+			{fractal: 'img/26.png'}, 
+			{fractal: 'img/27.png'}, 
+			{fractal: 'img/28.png'}, 
+			{fractal: 'img/29.png'},
+			{fractal: 'img/30.png'}
+		];
+		var randomized_fractals = jsPsych.randomization.repeat(fractals,1);
+
+		var randomized_trial_stimuli = [];
+
+		for(let i = 0; i < randomized_trivia_questions.length; i++){
+			let question = randomized_trivia_questions[i].question;
+			let answer = randomized_trivia_questions[i].answer;
+			let fractal = randomized_fractals[i].fractal;
+			randomized_trial_stimuli.push({question: question, answer: answer, fractal: fractal});
+		}
 		/* practice trials */
 
 		/* present the instructions*/
@@ -62,6 +138,9 @@
 			<h2><strong>How many legs does a lobster have?</strong></h2>`,
 			questions: [{prompt: "Predict the answer (type a number)"}],
 			css_classes: ["card_container"],
+			data:{
+				task: 'practice'
+			}
 		};
 
 		var practice_2 = {
@@ -73,6 +152,7 @@
 					{
 						type: "likert",
 						prompt: "How much do you know about this topic on a scale of 1-7",
+						name: 'practice',
 						likert_scale_min_label: "Nothing At All",
 						likert_scale_max_label: "A lot",
 						likert_scale_values: [
@@ -82,13 +162,14 @@
 							{value: 3},
 							{value: 4},
 							{value: 5},
-						],
+						]
 					},
 				],
 				[
 					{
 						type: "likert",
 						prompt: "How much do you want to know the answer on a scale of 1-7",
+						name: 'practice',
 						likert_scale_min_label: "Nothing At All",
 						likert_scale_max_label: "Super",
 						likert_scale_values: [
@@ -98,7 +179,7 @@
 							{value: 3},
 							{value: 4},
 							{value: 5},
-						],
+						]
 					},
 				],
 			],
@@ -111,6 +192,9 @@
 			<p></p>
 			<p>Answer: 10</p>
 			`,
+			data:{
+				task: 'practice'
+			}
 		};
 
 		var practice_end = {
@@ -122,24 +206,26 @@
 			`,
 		};
 
-		/* trials */
-		var prediction_trial = {
+		var prediction = {
 			type: jsPsychSurveyText,
-			preamble: `
-			<h1>TRIAL 1\n</h1>
-			<h3>What year was the very first model of the iPhone released?</h3>
-			`,
+			preamble: function (){
+				var stim = '<h1>TRIAL 1\n</h1>' + jsPsych.timelineVariable('question') + '</p>';
+                return stim
+			},
 			questions: [
 				{
 					prompt: "Type your prediction below (numbers only!)",
 					name: "Prediction",
 				},
-			],
+			]
 		};
 
-		var prior_knowledge_trial = {
+		var prior_knowledge_and_curiosty = {
 			type: jsPsychSurvey,
-			title: "What year was the very first model of the iPhone released?",
+			title: function (){
+				var stim = jsPsych.timelineVariable('question');
+                return stim
+			},
 			pages: [
 				[
 					{
@@ -177,13 +263,34 @@
 				],
 			],
 		};
-
+		
 		var loading_screen = {
 			type: jsPsychImageKeyboardResponse,
-			stimulus: "img/1.png",
+			stimulus: function (){
+				var stim = jsPsych.timelineVariable('fractal');
+                return stim
+			},
 			choices: "NO_KEYS",
 			trial_duration: 2000,
 		};
+
+		var answer = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: function() {
+				var stim = jsPsych.timelineVariable('question') + '<p>' + jsPsych.timelineVariable('answer')
+				return stim
+			},
+			choices: "NO_KEYS",
+			trial_duration: 3000,
+		}
+
+		/* trials */
+		var trials = {
+			timeline:[prediction, prior_knowledge_and_curiosty,loading_screen, answer],
+			timeline_variables: randomized_trial_stimuli
+		}
+
+		
 
 		/* push everything to timeline */
 		timeline.push(preload);
@@ -192,9 +299,7 @@
 		timeline.push(practice_2);
 		timeline.push(practice_answer);
 		timeline.push(practice_end);
-		timeline.push(prediction_trial);
-		timeline.push(prior_knowledge_trial);
-		timeline.push(loading_screen);
+		timeline.push(trials);
 
 		/* start the experiment */
 		jsPsych.run(timeline);
