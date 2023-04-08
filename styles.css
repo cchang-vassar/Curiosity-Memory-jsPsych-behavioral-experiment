@@ -4,6 +4,7 @@ body {
 
 p {
     font-family: "Open Sans", "Arial", sans-serif;
+    font-size: 24px;
 }
 
 .card_container {
@@ -19,10 +20,32 @@ p {
     margin-top: 20%;
 }
 
-.sv_main {
+h3 {
+    color: #4178d2;
+}
+
+#jspsych-content > div.sv_main.sv_default_css > form > div.sv_container > div.sv_header > div.sv_header__text > h3 {
+    font-family: "Open Sans", "Arial", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+    text-align: center;
+    margin-top: -2.8%;
+}
+
+#jspsych-survey-text-preamble > h2 {
+    margin-top: 20%;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+#jspsych-survey-text-0 > p {
+    margin-top: 15%;
     font-size: 16px;
 }
 
-h3 {
-    color: #4178d2;
+.sv_body {
+    color: #000000;
+    margin-top: 10%;
+    text-align: center;
 }

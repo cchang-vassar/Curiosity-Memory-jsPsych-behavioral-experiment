@@ -36,6 +36,15 @@
 		/* global vars */
 		var timeline = [];
 		var test_stimuli = [{stimulus: "img/1.png"}, {stimulus: "img/2.png"}];
+		const PREDICTION_PROMPT =
+			"Type your prediction of the answer below (numbers only!)";
+		const PRIOR_KNOWLEDGE_PROMPT = "How much do you know about this topic?";
+		const CURIOSITY_PROMPT =
+			"How much do you want to know the answer to this question?";
+		const PRIOR_KNOWLEDGE_LIKERT_MIN = "Nothing at all";
+		const PRIOR_KNOWLEDGE_LIKERT_MAX = "LIKE, A LOT";
+		const CURIOSITY_LIKERT_MIN = "I don't care";
+		const CURIOSITY_LIKERT_MAX = "TELL ME!";
 
 		/* practice trials */
 
@@ -55,26 +64,43 @@
 			`,
 		};
 
-		var practice_1 = {
+		var practice_prediction = {
 			type: jsPsychSurveyText,
 			preamble: `
 			<h3><strong><em>PRACTICE TRIAL</em></strong></h3>
 			<h2><strong>How many legs does a lobster have?</strong></h2>`,
-			questions: [{prompt: "Predict the answer (type a number)"}],
+			questions: [{prompt: PREDICTION_PROMPT}],
 			css_classes: ["card_container"],
+			data: {
+				task: "practice",
+			},
 		};
 
-		var practice_2 = {
+		var practice_likert = {
 			type: jsPsychSurvey,
+			on_load: () => {
+				document.querySelector(".card_container").insertAdjacentHTML(
+					"afterbegin",
+					`
+					<div>
+					<h3>
+						<strong>
+							<em>PRACTICE TRIAL</em>
+						</strong>
+					</h3>
+					</div>
+				`
+				);
+			},
 			title: "How many legs does a lobster have?",
 			css_classes: ["card_container"],
 			pages: [
 				[
 					{
 						type: "likert",
-						prompt: "How much do you know about this topic on a scale of 1-7",
-						likert_scale_min_label: "Nothing At All",
-						likert_scale_max_label: "A lot",
+						prompt: PRIOR_KNOWLEDGE_PROMPT,
+						likert_scale_min_label: PRIOR_KNOWLEDGE_LIKERT_MIN,
+						likert_scale_max_label: PRIOR_KNOWLEDGE_LIKERT_MAX,
 						likert_scale_values: [
 							{value: 0},
 							{value: 1},
@@ -83,14 +109,17 @@
 							{value: 4},
 							{value: 5},
 						],
+						data: {
+							task: "practice",
+						},
 					},
 				],
 				[
 					{
 						type: "likert",
-						prompt: "How much do you want to know the answer on a scale of 1-7",
-						likert_scale_min_label: "Nothing At All",
-						likert_scale_max_label: "Super",
+						prompt: CURIOSITY_PROMPT,
+						likert_scale_min_label: CURIOSITY_LIKERT_MIN,
+						likert_scale_max_label: CURIOSITY_LIKERT_MAX,
 						likert_scale_values: [
 							{value: 0},
 							{value: 1},
@@ -99,6 +128,9 @@
 							{value: 4},
 							{value: 5},
 						],
+						data: {
+							task: "practice",
+						},
 					},
 				],
 			],
@@ -123,31 +155,67 @@
 		};
 
 		/* trials */
-		var prediction_trial = {
+		var title_card = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: `
+			<h1><strong>TRIAL 1</strong></h1>
+			`,
+		};
+
+		var trial_prediction = {
 			type: jsPsychSurveyText,
+			on_load: () => {
+				document.querySelector(".card_container").insertAdjacentHTML(
+					"afterbegin",
+					`
+					<div>
+					<h3>
+						<strong>
+							<em>TRIAl 1</em>
+						</strong>
+					</h3>
+					</div>
+				`
+				);
+			},
 			preamble: `
-			<h1>TRIAL 1\n</h1>
-			<h3>What year was the very first model of the iPhone released?</h3>
+			<h2>What year was the very first model<br> of the iPhone released?</h2>
 			`,
 			questions: [
 				{
-					prompt: "Type your prediction below (numbers only!)",
+					prompt: PREDICTION_PROMPT,
 					name: "Prediction",
 				},
 			],
+			css_classes: ["card_container"],
 		};
 
-		var prior_knowledge_trial = {
+		var trial_likert = {
 			type: jsPsychSurvey,
-			title: "What year was the very first model of the iPhone released?",
+			title: "What year was the very first model\n of the iPhone released?",
+			css_classes: ["card_container"],
+			on_load: () => {
+				document.querySelector(".card_container").insertAdjacentHTML(
+					"afterbegin",
+					`
+					<div>
+					<h3>
+						<strong>
+							<em>TRIAL 1</em>
+						</strong>
+					</h3>
+					</div>
+				`
+				);
+			},
 			pages: [
 				[
 					{
 						type: "likert",
 						name: "prior knowledge",
-						prompt: "How much do you know about this topic?",
-						likert_scale_min_label: "Nothing at all",
-						likert_scale_max_label: "A lot!",
+						prompt: PRIOR_KNOWLEDGE_PROMPT,
+						likert_scale_min_label: PRIOR_KNOWLEDGE_LIKERT_MIN,
+						likert_scale_max_label: PRIOR_KNOWLEDGE_LIKERT_MAX,
 						likert_scale_values: [
 							{value: 0},
 							{value: 1},
@@ -156,15 +224,18 @@
 							{value: 4},
 							{value: 5},
 						],
+						data: {
+							task: "prior knowledge",
+						},
 					},
 				],
 				[
 					{
 						type: "likert",
 						name: "curiosity",
-						prompt: "How much do you want to know the answer?",
-						likert_scale_min_label: "I couldn't care less",
-						likert_scale_max_label: "I am DYING to know!",
+						prompt: CURIOSITY_PROMPT,
+						likert_scale_min_label: CURIOSITY_LIKERT_MIN,
+						likert_scale_max_label: CURIOSITY_LIKERT_MAX,
 						likert_scale_values: [
 							{value: 0},
 							{value: 1},
@@ -173,6 +244,9 @@
 							{value: 4},
 							{value: 5},
 						],
+						data: {
+							task: "curiosity",
+						},
 					},
 				],
 			],
@@ -185,16 +259,36 @@
 			trial_duration: 2000,
 		};
 
+		var trial_answer = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: `
+			<p><strong>What year was the very first model of the iPhone released?</strong></p>
+			<p></p>
+			<p>Answer: 2007</p>
+			`,
+		};
+
+		var trial_end = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: `
+			<p>Trial 1 is over</p>
+			<p>Press any key to continue to the actual trials</p>
+			`,
+		};
+
 		/* push everything to timeline */
 		timeline.push(preload);
 		timeline.push(instruction);
-		timeline.push(practice_1);
-		timeline.push(practice_2);
+		timeline.push(practice_prediction);
+		timeline.push(practice_likert);
 		timeline.push(practice_answer);
 		timeline.push(practice_end);
-		timeline.push(prediction_trial);
-		timeline.push(prior_knowledge_trial);
+		timeline.push(title_card);
+		timeline.push(trial_prediction);
+		timeline.push(trial_likert);
 		timeline.push(loading_screen);
+		timeline.push(trial_answer);
+		timeline.push(trial_end);
 
 		/* start the experiment */
 		jsPsych.run(timeline);
