@@ -541,9 +541,9 @@
 						<img src=${jsPsych.timelineVariable("fractal")}>
 					</div>
 					<div class="flip_card_back">
-					<h2 style="margin-top: 40%">${jsPsych.timelineVariable("question")}</h2>
-					<br>
-					<p>Answer: <strong>${jsPsych.timelineVariable("answer")}</strong></p>
+						<h2>${jsPsych.timelineVariable("question")}</h2>
+						<br>
+						<p>Answer: <strong>${jsPsych.timelineVariable("answer")}</strong></p>
 					</div>
 				</div>
 			</div>
@@ -827,7 +827,7 @@
 				trial_prediction,
 				trial_likert,
 				loading_screen,
-				trial_answer,
+				// trial_answer,
 				trial_end,
 			],
 			timeline_variables: randomized_trial_stimuli,
