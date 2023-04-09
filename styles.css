@@ -157,7 +157,7 @@ h3 {
   }
   
   .flip_card_back {
-    background-color: #2980b9;
+    background-color: #FFFFFF;
     color: white;
     transform: rotateY(180deg);
   }
