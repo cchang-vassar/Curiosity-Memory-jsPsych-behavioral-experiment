@@ -45,9 +45,11 @@
 		var trial_number = 1;
 		var fractal_number = 1;
 		var fractal_correct = false;
+		var fractal_correct_tally = 0;
 		var trivia_number = 1;
 		var trivia_difference = 100;
 		var trivia_percentage_difference = 0;
+		var trivia_correct_tally = 0;
 
 		/* media preload */
 		var preload = {
@@ -654,6 +656,7 @@
 				);
 				if (data.correct) {
 					fractal_correct = true;
+					fractal_correct_tally++;
 				} else {
 					fractal_correct = false;
 				}
@@ -768,7 +771,10 @@
 					"answer"
 				)}.</h2>`;
 				retStr += `<p>Your answer was different from the answer by ${trivia_difference}.</p>`;
-				if (trivia_percentage_difference <= 10) {
+				if (trivia_difference == 0) {
+					retStr += `<p>You got the right answer. Amazing work!</p>`;
+					trivia_correct_tally++;
+				} else if (trivia_percentage_difference <= 10) {
 					retStr += `<p>Excellent. Kudos to you!</p>`;
 				} else if (trivia_percentage_difference <= 30) {
 					retStr += `<p>A pretty good job indeed.</p>`;
@@ -782,6 +788,20 @@
 			},
 			choices: "NO_KEYS",
 			trial_duration: 3000,
+		};
+
+		var experiment_end = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: `
+			<h2>This is the end of the experiment!</h2>
+			<p>Let's see how you did:</p>
+			<p class="list" style="margin-left: 20%; color: #1d478c;">
+				1)	Number of correct patterns chosen: ${fractal_correct_tally} / 10<br>
+				2)	Number of correct trivia questions answered: ${trivia_correct_tally} / 10<br>
+			</p>
+			<p>Thank you so much for participanting in our experiment. We hope it was enjoyable :)</p>
+			<p>Goodbye!</p>
+			`,
 		};
 
 		/* timeline groups --------------------------------------------------------------------------------------------------------------*/
@@ -828,6 +848,7 @@
 		timeline.push(fractal_break);*/
 		timeline.push(trivia_instruction);
 		timeline.push(trivia_session);
+		timeline.push(experiment_end);
 
 		/* start the experiment */
 		jsPsych.run(timeline);
