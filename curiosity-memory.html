@@ -503,6 +503,7 @@
 							{value: 4},
 							{value: 5},
 						],
+						required: true,
 						data: {
 							task: "prior knowledge",
 						},
@@ -523,6 +524,7 @@
 							{value: 4},
 							{value: 5},
 						],
+						required: true,
 						data: {
 							task: "curiosity",
 						},
@@ -536,11 +538,9 @@
 			stimulus: () => {
 				return `
 			<div class="flip_card">
-				<div class="flip_card_inner" style="overflow: hidden;">
+				<div class="flip_card_inner">
 					<div class="flip_card_front">
-						<img src=${jsPsych.timelineVariable(
-							"fractal"
-						)} style="width: 30vw; height: 60vh;">
+						<img src=${jsPsych.timelineVariable("fractal")}>
 					</div>
 					<div class="flip_card_back">
 						<h2>${jsPsych.timelineVariable("question")}</h2>
@@ -846,14 +846,14 @@
 		};
 
 		/* push everything to timeline */
-		//timeline.push(preload);
+		timeline.push(preload);
 		timeline.push(instruction);
-		//timeline.push(practice_session);
+		timeline.push(practice_session);
 		timeline.push(trials_session);
-		//timeline.push(trial_break);
+		timeline.push(trial_break);
 		timeline.push(fractal_session);
-		//timeline.push(fractal_break);*/
-		//timeline.push(trivia_instruction);
+		timeline.push(fractal_break);
+		timeline.push(trivia_instruction);
 		timeline.push(trivia_session);
 		timeline.push(experiment_end);
 

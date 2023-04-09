@@ -25,7 +25,7 @@ p {
 
 .two_card_container {
     height: 80vh;
-    width: 90vw;
+    width: 70vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -161,7 +161,12 @@ h3 {
     transform: rotateY(180deg);
 }
 
-.flip_card_front>img {
+.two_card_container .card_container > img {
+    width: 40vw;
+    height: 80vh;
+}
+
+.flip_card_front>img  {
     width: 30vw;
     height: 60vh;
     border-radius: 5%;
