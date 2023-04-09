@@ -12,14 +12,16 @@
 			href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css"
 			rel="stylesheet"
 			type="text/css" />
-		<link href="styles.css" rel="stylesheet" type="text/css" />
 		<link
 			rel="stylesheet"
 			href="https://unpkg.com/@jspsych/plugin-survey@0.2.1/css/survey.css"
 			type="text/css" />
+		<link href="styles.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body></body>
 	<script>
+		/* set up stuff--------------------------------------------------------------------------------------------------------------*/
+
 		/* initialize jsPsych */
 		var jsPsych = initJsPsych({
 			on_finish: function () {
@@ -27,17 +29,9 @@
 			},
 		});
 
-		/* media preload */
-		var preload = {
-			type: jsPsychPreload,
-			images: ["img/1.png", "img/2.png"],
-		};
-
 		/* global vars */
-		var timeline = [];
-		var test_stimuli = [{stimulus: "img/1.png"}, {stimulus: "img/2.png"}];
 		const PREDICTION_PROMPT =
-			"Type your prediction of the answer below (numbers only!)";
+			"Type your prediction of the answer below (numbers only!):";
 		const PRIOR_KNOWLEDGE_PROMPT = "How much do you know about this topic?";
 		const CURIOSITY_PROMPT =
 			"How much do you want to know the answer to this question?";
@@ -45,32 +39,298 @@
 		const PRIOR_KNOWLEDGE_LIKERT_MAX = "LIKE, A LOT";
 		const CURIOSITY_LIKERT_MIN = "I don't care";
 		const CURIOSITY_LIKERT_MAX = "TELL ME!";
+		const TRIVIA_PROMPT = "Type your answer below (numbers only!):";
 
-		/* practice trials */
+		var timeline = [];
+		var trial_number = 1;
+		var fractal_number = 1;
+		var fractal_correct = false;
+		var trivia_number = 1;
+		var trivia_difference = 100;
+
+		/* media preload */
+		var preload = {
+			type: jsPsychPreload,
+			images: [
+				"img/1.png",
+				"img/2.png",
+				"img/3.png",
+				"img/4.png",
+				"img/5.png",
+				"img/6.png",
+				"img/7.png",
+				"img/8.png",
+				"img/9.png",
+				"img/10.png",
+				"img/11.png",
+				"img/12.png",
+				"img/13.png",
+				"img/14.png",
+				"img/15.png",
+				"img/16.png",
+				"img/17.png",
+				"img/18.png",
+				"img/19.png",
+				"img/20.png",
+				"img/21.png",
+				"img/22.png",
+				"img/23.png",
+				"img/24.png",
+				"img/25.png",
+				"img/26.png",
+				"img/27.png",
+				"img/28.png",
+				"img/29.png",
+				"img/30.png",
+				"img/31.png",
+				"img/32.png",
+				"img/33.png",
+				"img/34.png",
+				"img/35.png",
+				"img/36.png",
+				"img/37.png",
+				"img/38.png",
+				"img/39.png",
+				"img/40.png",
+			],
+		};
+
+		/* trivia questions - stimuli for session one */
+		var trivia_questions = [
+			{
+				question: "What year was the very first model of the iPhone released?",
+				answer: "2007",
+			},
+			{
+				question:
+					"How many single hand gestures, or mudras, are used in Indian classical dance?",
+				answer: "28",
+			},
+			{
+				question: "How many books has Stephen King published?",
+				answer: "65",
+			},
+			{question: "What is the diameter of Earth in miles?", answer: "7917.5"},
+			{question: "How many tones are in the Vietnamese language?", answer: "6"},
+			{question: "What year did the Berlin Wall fall?", answer: "1989"},
+			{question: "How many times a day do Muslims pray?", answer: "5"},
+			{question: "How many countries are in Africa?", answer: "54"},
+			{question: "How much is in a Baker's Dozen?", answer: "13"},
+			{
+				question: "How many double stitches does a baseball have?",
+				answer: "108",
+			},
+			{question: "How many constellations are there?", answer: "88"},
+			{
+				question: "In what year was the Mexican artist Frida Kahlo born?",
+				answer: "1907",
+			},
+			{
+				question: "How long is the Great Wall of China (in miles)?",
+				answer: "13,171",
+			},
+			{question: "How many bones is a human baby born with?", answer: "300"},
+			{
+				question:
+					"How many countries in Africa have French as the official language?",
+				answer: "21",
+			},
+			{question: "What year did the titanic sink?", answer: "1912"},
+			{question: "How many books are in the Catholic Bible?", answer: "73"},
+			{question: "How many main islands make up Japan?", answer: "4"},
+			{
+				question: "How many people are vegan globally (in millions)?",
+				answer: "79",
+			},
+			{
+				question: "In what year did the first Modern Olympic Games take place?",
+				answer: "1896",
+			},
+			{question: "How many moons does Neptune have?", answer: "14"},
+			{question: "How many lines are in a sonnet?", answer: "14"},
+			{
+				question: "In what year was the first Nobel Prize awarded?",
+				answer: "1901",
+			},
+			{
+				question:
+					"How many native species of kangaroos are found in Australia?",
+				answer: "4",
+			},
+			{
+				question:
+					"How many floors are in the Burj Khalifa, the tallest building in the world?",
+				answer: "163",
+			},
+			{question: "How old was King Tut when he died?", answer: "19"},
+			{
+				question:
+					"A bar mitzvah is traditionally celebrated when Jewish males turn what age?",
+				answer: "13",
+			},
+			{
+				question: "How many countries have territory in the Arctic Circle?",
+				answer: "8",
+			},
+			{
+				question:
+					"How many different animals (real or imaginary) are represented in the Chinese calendar?",
+				answer: "12",
+			},
+			{
+				question:
+					"How many soccer players should each team have on the field at the start of each match?",
+				answer: "11",
+			},
+		];
+
+		/* target fractals - implicit stimuli for session one */
+		var implicit_stimuli = [
+			{fractal: "img/1.png"},
+			{fractal: "img/2.png"},
+			{fractal: "img/3.png"},
+			{fractal: "img/4.png"},
+			{fractal: "img/5.png"},
+			{fractal: "img/6.png"},
+			{fractal: "img/7.png"},
+			{fractal: "img/8.png"},
+			{fractal: "img/9.png"},
+			{fractal: "img/10.png"},
+			{fractal: "img/11.png"},
+			{fractal: "img/12.png"},
+			{fractal: "img/13.png"},
+			{fractal: "img/14.png"},
+			{fractal: "img/15.png"},
+			{fractal: "img/16.png"},
+			{fractal: "img/17.png"},
+			{fractal: "img/18.png"},
+			{fractal: "img/19.png"},
+			{fractal: "img/20.png"},
+			{fractal: "img/21.png"},
+			{fractal: "img/22.png"},
+			{fractal: "img/23.png"},
+			{fractal: "img/24.png"},
+			{fractal: "img/25.png"},
+			{fractal: "img/26.png"},
+			{fractal: "img/27.png"},
+			{fractal: "img/28.png"},
+			{fractal: "img/29.png"},
+			{fractal: "img/30.png"},
+		];
+
+		/* distractor fractals - stimuli for session two */
+		var distractor_fractals = [
+			{fractal: "img/31.png"},
+			{fractal: "img/32.png"},
+			{fractal: "img/33.png"},
+			{fractal: "img/34.png"},
+			{fractal: "img/35.png"},
+			{fractal: "img/36.png"},
+			{fractal: "img/37.png"},
+			{fractal: "img/38.png"},
+			{fractal: "img/39.png"},
+			{fractal: "img/40.png"},
+		];
+
+		/* trivia stimuli randomization - session one */
+		var randomized_trivia_questions = jsPsych.randomization.repeat(
+			trivia_questions,
+			1
+		);
+
+		/* implicit stimuli randomization - session one */
+		var randomized_implicit_stimuli = jsPsych.randomization.repeat(
+			implicit_stimuli,
+			1
+		);
+
+		/* trivia-fractal pair stimuli randomization - session one */
+		var randomized_trial_stimuli = [];
+
+		for (let i = 0; i < randomized_trivia_questions.length; i++) {
+			let question = randomized_trivia_questions[i].question;
+			let answer = randomized_trivia_questions[i].answer;
+			let fractal = randomized_implicit_stimuli[i].fractal;
+			randomized_trial_stimuli.push({
+				question: question,
+				answer: answer,
+				fractal: fractal,
+			});
+		}
+
+		/* target fractal stimuli randomization - session two */
+		var random_chosen_fractal_10_set = new Set();
+
+		while (random_chosen_fractal_10_set.size < 10) {
+			index = Math.floor(Math.random() * implicit_stimuli.length);
+			random_chosen_fractal_10_set.add(implicit_stimuli[index]);
+		}
+
+		var random_chosen_fractal_10 = Array.from(random_chosen_fractal_10_set);
+
+		/* distractor fractal stimuli randomization - session two */
+		var randomized_distractor_fractals = jsPsych.randomization.repeat(
+			distractor_fractals,
+			1
+		);
+
+		/* target-distractor position randomization - session two */
+		var fj_10_arr = ["f", "f", "f", "f", "f", "j", "j", "j", "j", "j"];
+		var random_fj_10_arr = jsPsych.randomization.repeat(fj_10_arr, 1);
+
+		/* target-distractor-pair stimuli randomization - session two */
+		var implicit_test_stimuli = [];
+
+		for (let i = 0; i < 10; i++) {
+			let target = random_chosen_fractal_10[i].fractal;
+			let distractor = randomized_distractor_fractals[i].fractal;
+			let correct_response = random_fj_10_arr[i];
+			implicit_test_stimuli.push({
+				target: target,
+				distractor: distractor,
+				correct_response: correct_response,
+			});
+		}
+
+		/* trivia memory test stimuli - session three */
+		var random_chosen_trivia_10_set = new Set();
+
+		while (random_chosen_trivia_10_set.size < 10) {
+			index = Math.floor(Math.random() * trivia_questions.length);
+			random_chosen_trivia_10_set.add(trivia_questions[index]);
+		}
+
+		var random_chosen_trivia_10 = Array.from(random_chosen_trivia_10_set);
+
+		/* practice trials --------------------------------------------------------------------------------------------------------------*/
 
 		/* present the instructions*/
 		var instruction = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: `
-			<p>Welcome and thank you for participating in this study!</p>
-			<p>In each trial, you will be given a trivia question and then be asked to:</p>
-			<p>1) Predict the answer</p>
-			<p>2) Rate your prior knowledge on the topic (1 - 7)</p>
-			<p>3) How much do you want to know the answer (1 - 7)</p>
-			<p></p>
-			<p>Then, the card will flip over, and you will see the answer</p>
-			<p></p>
-			<p>Let's try a practice round. Press any key to move to the next slide</p>
-			`,
+					<p>Welcome and thank you for participating in this study!</p>
+					<p>In each trial, you will be given a trivia question and then be asked to:</p><br>
+					<div class="list">
+					<p>1) Predict the answer</p>
+					<p>2) Rate how much you already know about the topic</p>
+					<p>3) Rate how much you want to know the answer</p>
+					</div>
+					<br>
+					<p>Then, you will see a card that flips over to reveal the answer.</p>
+					<br>
+					<p>Let's try a practice round. Press <span style="color: #FFFFFF">any key</span> to move to the next slide</p>
+					`,
 		};
 
 		var practice_prediction = {
 			type: jsPsychSurveyText,
 			preamble: `
-			<h3><strong><em>PRACTICE TRIAL</em></strong></h3>
-			<h2><strong>How many legs does a lobster have?</strong></h2>`,
+					<div style="margin-top: -15%;">
+					<h3>PRACTICE TRIAL</h3>
+					<h2>How many legs does a lobster have?</h2>
+					</div>
+					`,
 			questions: [{prompt: PREDICTION_PROMPT}],
-			css_classes: ["card_container"],
 			data: {
 				task: "practice",
 			},
@@ -79,26 +339,22 @@
 		var practice_likert = {
 			type: jsPsychSurvey,
 			on_load: () => {
-				document.querySelector(".card_container").insertAdjacentHTML(
+				document.querySelector(".jspsych-content").insertAdjacentHTML(
 					"afterbegin",
 					`
-					<div>
-					<h3>
-						<strong>
-							<em>PRACTICE TRIAL</em>
-						</strong>
-					</h3>
-					</div>
-				`
+							<div>
+							<h3>PRACTICE TRIAL</h3>
+							</div>
+						`
 				);
 			},
 			title: "How many legs does a lobster have?",
-			css_classes: ["card_container"],
 			pages: [
 				[
 					{
 						type: "likert",
 						prompt: PRIOR_KNOWLEDGE_PROMPT,
+						name: "practice",
 						likert_scale_min_label: PRIOR_KNOWLEDGE_LIKERT_MIN,
 						likert_scale_max_label: PRIOR_KNOWLEDGE_LIKERT_MAX,
 						likert_scale_values: [
@@ -120,6 +376,7 @@
 						prompt: CURIOSITY_PROMPT,
 						likert_scale_min_label: CURIOSITY_LIKERT_MIN,
 						likert_scale_max_label: CURIOSITY_LIKERT_MAX,
+						name: "practice",
 						likert_scale_values: [
 							{value: 0},
 							{value: 1},
@@ -139,73 +396,78 @@
 		var practice_answer = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: `
-			<p><strong>How many legs does a lobster have?</strong></p>
-			<p></p>
-			<p>Answer: 10</p>
-			`,
+					<div>
+					<p><strong>How many legs does a lobster have?</strong></p>
+					<br>
+					<p>Answer: <strong>10</strong></p>
+					</div>
+					`,
+			choices: "NO_KEYS",
+			trial_duration: 2000,
+			data: {
+				task: "practice",
+			},
 		};
 
 		var practice_end = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: `
-			<p>The practice round is over</p>
-			<p>Press any key to continue to the actual trials</p>
-			<p>Good Luck!</p>
-			`,
+					<div>
+					<h2>The practice round is over</h2>
+					<p>Press <span style="color: #FFFFFF">any key</span> to continue to the actual trials</p>
+					<p>Good Luck!</p>
+					</div>
+					`,
 		};
 
-		/* trials */
-		var title_card = {
+		/* trials --------------------------------------------------------------------------------------------------------------*/
+		var trial_title_card = {
 			type: jsPsychHtmlKeyboardResponse,
-			stimulus: `
-			<h1><strong>TRIAL 1</strong></h1>
-			`,
+			stimulus: () => {
+				retStr = "";
+				retStr += `<h1><strong>TRIAL ${trial_number}</strong></h1>`;
+				return retStr;
+			},
+			choices: "NO_KEYS",
+			trial_duration: 2000,
 		};
 
 		var trial_prediction = {
 			type: jsPsychSurveyText,
 			on_load: () => {
-				document.querySelector(".card_container").insertAdjacentHTML(
+				document.querySelector(".jspsych-content").insertAdjacentHTML(
 					"afterbegin",
 					`
-					<div>
-					<h3>
-						<strong>
-							<em>TRIAl 1</em>
-						</strong>
-					</h3>
-					</div>
-				`
+						<div style="margin-top: -18%;">
+						<h3 style="line-height: 2em;">TRIAL ${trial_number}</h3>
+						</div>
+					`
 				);
 			},
-			preamble: `
-			<h2>What year was the very first model<br> of the iPhone released?</h2>
-			`,
+			preamble: function () {
+				return "<h2>" + jsPsych.timelineVariable("question") + "</h2>";
+			},
 			questions: [
 				{
 					prompt: PREDICTION_PROMPT,
-					name: "Prediction",
+					name: "prediction",
 				},
 			],
-			css_classes: ["card_container"],
 		};
 
 		var trial_likert = {
 			type: jsPsychSurvey,
-			title: "What year was the very first model\n of the iPhone released?",
-			css_classes: ["card_container"],
+			title: function () {
+				return jsPsych.timelineVariable("question");
+			},
 			on_load: () => {
-				document.querySelector(".card_container").insertAdjacentHTML(
+				document.querySelector(".jspsych-content").insertAdjacentHTML(
 					"afterbegin",
 					`
-					<div>
-					<h3>
-						<strong>
-							<em>TRIAL 1</em>
-						</strong>
-					</h3>
-					</div>
-				`
+						<div>
+						<h3>TRIAL 1</h3>
+						</div>
+					`
 				);
 			},
 			pages: [
@@ -254,41 +516,315 @@
 
 		var loading_screen = {
 			type: jsPsychImageKeyboardResponse,
-			stimulus: "img/1.png",
+			stimulus: jsPsych.timelineVariable("fractal"),
+			css_classes: ["card_container"],
 			choices: "NO_KEYS",
 			trial_duration: 2000,
 		};
 
-		var trial_answer = {
+		var loading_screen_flip = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: `
-			<p><strong>What year was the very first model of the iPhone released?</strong></p>
-			<p></p>
-			<p>Answer: 2007</p>
+			<div class="flip_card">
+				<div class="flip_card_inner">
+					<div class="flip_card_front">
+						<p>test</p>
+					</div>
+					<div class="flip_card_back">
+						<p>answer</p>
+					</div>
+				</div>
+			</div>
 			`,
+			css_classes: ["card_container"],
+		};
+
+		var trial_answer = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: function () {
+				var question_answer =
+					"<div style='margin-top: 50%;'>" +
+					"<h2>" +
+					jsPsych.timelineVariable("question") +
+					"</h2>" +
+					"<br>" +
+					"Answer: " +
+					"<strong>" +
+					jsPsych.timelineVariable("answer") +
+					"</strong>" +
+					"</div>";
+				return question_answer;
+			},
+			css_classes: ["card_container"],
+			choices: "NO_KEYS",
+			trial_duration: 2000,
 		};
 
 		var trial_end = {
 			type: jsPsychHtmlKeyboardResponse,
+			stimulus: function () {
+				retStr = "";
+				retStr += `
+					<div>
+					<h2>Trial ${trial_number} is over</h2>
+					<p>Press <span style="color: #FFFFFF">any key</span> to continue to the next trial</p>
+					</div>
+				`;
+				trial_number++;
+				return retStr;
+			},
+		};
+
+		var trial_break = {
+			type: jsPsychHtmlKeyboardResponse,
 			stimulus: `
-			<p>Trial 1 is over</p>
-			<p>Press any key to continue to the actual trials</p>
+			<h2>All trivia trials complete.</h2>
+			<p>Great work! Now take a one minute break.</p>
+			<p>The next session will begin automatically after one minute.</p>
+			`,
+			choices: "NO_KEYS",
+			trial_duration: 60000,
+		};
+
+		/* fractal session --------------------------------------------------------------------------------------------------------------*/
+
+		var fractal_instruction = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: `
+			<h2>Good job resting :p</h2>
+			<p>In the next session, you will see two cards on the screen in each trial.
+				On one card is a pattern that you have seen before in the experiment,
+				and on the other card is one you have not seen.</p><br>
+			<p>Your task is to choose the one you think you <em>have</em> seen before for every trial.</p>
+			<p>Press '<span style="color: #FFFFFF;"><strong>f</strong></span>' to choose the card on the left,
+				and '<span style="color: #FFFFFF;"><strong>j</strong></span>' to choose the card on the right.</p>
+			<p>Have fun!</p>
+			<br>
+			<p>Press <span style="color: #FFFFFF">any key</span> to start the next session</p>
 			`,
 		};
 
+		var fractal_title_card = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: () => {
+				retStr = "";
+				retStr += `<h1><strong>PATTERN CHOICE ${fractal_number}</strong></h1>`;
+				return retStr;
+			},
+			choices: "NO_KEYS",
+			trial_duration: 2000,
+		};
+
+		var fractal_trial = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: () => {
+				if (random_fj_10_arr[fractal_number - 1] == "f") {
+					var retStr = `
+						<div class="two_card_container">
+						<div class="card_container">
+						<img src=${jsPsych.timelineVariable("target")}>
+						</div>
+
+						<div class="card_container">
+						<img src=${jsPsych.timelineVariable("distractor")}>
+						</div>`;
+				} else {
+					var retStr = `
+						<div class="two_card_container">
+						<div class="card_container">
+						<img src=${jsPsych.timelineVariable("distractor")}>
+						</div>
+
+						<div class="card_container">
+						<img src=${jsPsych.timelineVariable("target")}>
+						</div>`;
+				}
+				return retStr;
+			},
+			choices: ["f", "j"],
+			data: {
+				task: "response",
+				correct_response: jsPsych.timelineVariable("correct_response"),
+			},
+			on_finish: function (data) {
+				data.correct = jsPsych.pluginAPI.compareKeys(
+					data.response,
+					data.correct_response
+				);
+				if (data.correct) {
+					fractal_correct = true;
+				} else {
+					fractal_correct = false;
+				}
+			},
+		};
+
+		var fractal_answer = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: () => {
+				fractal_number++;
+				if (fractal_correct) {
+					return `
+					<p>Correct!</p>
+					`;
+				} else {
+					return `
+					<p>Wrong answer</p>
+					`;
+				}
+			},
+			choices: "NO_KEYS",
+			trial_duration: 1000,
+		};
+
+		var fractal_break = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: `
+			<h2>You completed all the pattern trials.</h2>
+			<p>Great work! Now take a one minute break.</p>
+			<p>The next session will begin automatically after one minute.</p>
+			`,
+			choices: "NO_KEYS",
+			trial_duration: 60000,
+		};
+
+		/* trivia session --------------------------------------------------------------------------------------------------------------*/
+
+		var trivia_instruction = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: `
+			<h2>Good job resting :p</h2>
+			<p>In the next session, you will see a trivia question on the screen in each trial.</p>
+			<p>Each of these trivia questions is chosen from the questions you have already seen in the first session of the experiment.</p><br>
+			<p>Your task is to answer the trivia question based on what you remember as accurately as you can.</p>
+			<p>Have fun!</p>
+			<br>
+			<p>Press <span style="color: #FFFFFF">any key</span> to start the next session</p>
+			`,
+		};
+
+		var trivia_title_card = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: () => {
+				retStr = "";
+				retStr += `<h1><strong>TRIVIA ${trivia_number}</strong></h1>`;
+				return retStr;
+			},
+			choices: "NO_KEYS",
+			trial_duration: 2000,
+		};
+
+		var trivia_trial = {
+			type: jsPsychSurveyText,
+			on_load: () => {
+				document.querySelector(".jspsych-content").insertAdjacentHTML(
+					"afterbegin",
+					`
+						<div style="margin-top: -18%;">
+						<h3 style="line-height: 2em;">TRIVIA ${trivia_number}</h3>
+						</div>
+					`
+				);
+			},
+			preamble: function () {
+				return "<h2>" + jsPsych.timelineVariable("question") + "</h2>";
+			},
+			questions: [
+				{
+					prompt: TRIVIA_PROMPT,
+					name: "answer",
+				},
+			],
+			data: {
+				task: "response",
+				correct_response: jsPsych.timelineVariable("answer"),
+			},
+			on_finish: function (data) {
+				let percentage_difference = 0;
+				let difference = Math.abs(data.response.answer - data.correct_response);
+				if (difference >= data.correct_response) {
+					percentage_difference = 100;
+				} else {
+					percentage_difference = Math.round(
+						Math.abs(
+							(data.response.answer - data.correct_response) /
+								data.correct_response
+						) * 100
+					);
+				}
+				data.difference = percentage_difference;
+				trivia_difference = data.difference;
+			},
+		};
+
+		var trivia_answer = {
+			type: jsPsychHtmlKeyboardResponse,
+			stimulus: () => {
+				trivia_number++;
+				retStr = "";
+				retStr += `<p>Your answer was ${trivia_difference}% different from the answer, ${jsPsych.timelineVariable(
+					"answer"
+				)}.</p>`;
+				if (trivia_difference <= 10) {
+					retStr += `<p>Excellent. Kudos to you!</p>`;
+				} else if (trivia_difference <= 30) {
+					retStr += `<p>A pretty good job indeed.</p>`;
+				} else if (trivia_difference <= 50) {
+					retStr += `<p>Not the worst. Can you do better on the next?</p>`;
+				} else {
+					retStr += `<p>Not even close... do better next time!</p>`;
+				}
+
+				return retStr;
+			},
+			choices: "NO_KEYS",
+			trial_duration: 3000,
+		};
+
+		/* timeline groups --------------------------------------------------------------------------------------------------------------*/
+		var practice_session = {
+			timeline: [
+				practice_prediction,
+				practice_likert,
+				loading_screen,
+				practice_answer,
+				practice_end,
+			],
+		};
+
+		var trials_session = {
+			timeline: [
+				trial_title_card,
+				trial_prediction,
+				trial_likert,
+				loading_screen,
+				loading_screen_flip,
+				trial_answer,
+				trial_end,
+			],
+			timeline_variables: randomized_trial_stimuli,
+		};
+
+		var fractal_session = {
+			timeline: [fractal_title_card, fractal_trial, fractal_answer],
+			timeline_variables: implicit_test_stimuli,
+		};
+
+		var trivia_session = {
+			timeline: [trivia_trial, trivia_answer],
+			timeline_variables: random_chosen_trivia_10,
+		};
+
 		/* push everything to timeline */
-		timeline.push(preload);
+		/*timeline.push(preload);
 		timeline.push(instruction);
-		timeline.push(practice_prediction);
-		timeline.push(practice_likert);
-		timeline.push(practice_answer);
-		timeline.push(practice_end);
-		timeline.push(title_card);
-		timeline.push(trial_prediction);
-		timeline.push(trial_likert);
-		timeline.push(loading_screen);
-		timeline.push(trial_answer);
-		timeline.push(trial_end);
+		timeline.push(practice_session);
+		timeline.push(trials_session);
+		timeline.push(trial_break);
+		timeline.push(fractal_session);
+		timeline.push(fractal_break);*/
+		timeline.push(trivia_instruction);
+		timeline.push(trivia_session);
 
 		/* start the experiment */
 		jsPsych.run(timeline);

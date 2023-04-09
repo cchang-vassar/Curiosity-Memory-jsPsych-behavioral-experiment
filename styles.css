@@ -7,6 +7,12 @@ p {
     font-size: 24px;
 }
 
+.list {
+    text-align: left;
+    margin-left: 10%;
+    font-weight: 700;
+}
+
 .card_container {
     height: 80vh;
     width: 40vw;
@@ -14,38 +20,137 @@ p {
     border-radius: 5%;
     border: 0.5rem solid #000000;
     filter: drop-shadow(0.75rem 0.75rem 0.5rem #373737);
+    overflow: hidden;
 }
 
-.card_container > div, .card_container > form {
+.two_card_container {
+    height: 80vh;
+    width: 90vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*.card_container > div, .card_container > form {
     margin-top: 20%;
+}*/
+
+.card_container > img {
+    margin-top: -10%;
+    margin-left: -10%;
 }
 
 h3 {
-    color: #4178d2;
+    color: #1d478c;
+    font-weight: 700;
+    font-style: italic;
 }
 
 #jspsych-content > div.sv_main.sv_default_css > form > div.sv_container > div.sv_header > div.sv_header__text > h3 {
     font-family: "Open Sans", "Arial", sans-serif;
-    font-size: 24px;
+    font-size: 27px;
     font-weight: 700;
     color: #000000;
     text-align: center;
-    margin-top: -2.8%;
+    font-style: normal;
+    line-height: 0.2em;
+}
+
+.sv_main.sv_default_css .sv_custom_header {
+    background-color: grey !important;
+}
+
+.sv_main .sv_container .sv_header {
+    margin-top: 5%;
+}
+
+#jspsych-content > div:nth-child(1) > h3 {
+    margin-top: 9%;
+    line-height: 0.1em;
+}
+
+.sv_main.sv_default_css {
+    background-color: grey !important;
+}
+
+.sv_main.sv_default_css .sv_body {
+    background-color: grey !important;
+}
+
+.sv_main.sv_default_css .sv_p_root > .sv_row:nth-child(2n+1) {
+    background-color: grey !important;
+}
+
+.sv_main.sv_default_css .sv_q_rating_item.active .sv_q_rating_item_text {
+    background-color: rgb(29, 71, 140) !important;
+    border-color: rgb(29, 71, 140) !important;
+}
+
+.sv_main.sv_default_css input[type="button"], .sv_default_css button {
+    color: white !important;
+    background-color: rgb(29, 71, 140) !important;
+}
+
+#jspsych-content-wrapper {
+    background-color: grey !important;
+    color: grey !important;
 }
 
 #jspsych-survey-text-preamble > h2 {
-    margin-top: 20%;
     font-size: 24px;
     font-weight: 700;
 }
 
 #jspsych-survey-text-0 > p {
-    margin-top: 15%;
     font-size: 16px;
 }
 
 .sv_body {
     color: #000000;
-    margin-top: 10%;
     text-align: center;
 }
+
+#jspsych-image-keyboard-response-stimulus {
+    object-position: center;
+    object-fit: contain;
+}
+
+.flip_card {
+    background-color: transparent;;
+    width: 300px;
+    height: 300px;
+    perspective: 1000px;
+  }
+  
+  .flip_card_inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  
+  .flip_card:hover .flip_card_inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip_card_front, .flip_card_back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .flip_card_front {
+    background-color: #bbb;
+    color: black;
+  }
+  
+  .flip_card_back {
+    background-color: #2980b9;
+    color: white;
+    transform: rotateY(180deg);
+  }
