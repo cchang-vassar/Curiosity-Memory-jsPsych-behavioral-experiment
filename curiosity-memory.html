@@ -43,13 +43,17 @@
 
 		var timeline = [];
 		var trial_number = 1;
+
 		var fractal_number = 1;
 		var fractal_correct = false;
 		var fractal_correct_tally = 0;
+
 		var trivia_number = 1;
 		var trivia_difference = 100;
 		var trivia_percentage_difference = 0;
 		var trivia_correct_tally = 0;
+
+		var repeat_loop = false;
 
 		/* media preload */
 		var preload = {
@@ -333,7 +337,13 @@
 					<h2>How many legs does a lobster have?</h2>
 					</div>
 					`,
-			questions: [{prompt: PREDICTION_PROMPT}],
+			questions: [
+				{
+					prompt: PREDICTION_PROMPT,
+					name: "practice prediction",
+					required: true,
+				},
+			],
 			data: {
 				task: "practice",
 			},
@@ -358,6 +368,7 @@
 						type: "likert",
 						prompt: PRIOR_KNOWLEDGE_PROMPT,
 						name: "practice",
+						required: true,
 						likert_scale_min_label: PRIOR_KNOWLEDGE_LIKERT_MIN,
 						likert_scale_max_label: PRIOR_KNOWLEDGE_LIKERT_MAX,
 						likert_scale_values: [
@@ -377,6 +388,7 @@
 					{
 						type: "likert",
 						prompt: CURIOSITY_PROMPT,
+						required: true,
 						likert_scale_min_label: CURIOSITY_LIKERT_MIN,
 						likert_scale_max_label: CURIOSITY_LIKERT_MAX,
 						name: "practice",
@@ -438,6 +450,7 @@
 		var trial_prediction = {
 			type: jsPsychSurveyText,
 			on_load: () => {
+				document.querySelector("#input-0").type = "number";
 				document.querySelector(".jspsych-content").insertAdjacentHTML(
 					"afterbegin",
 					`
@@ -454,6 +467,7 @@
 				{
 					prompt: PREDICTION_PROMPT,
 					name: "prediction",
+					required: true,
 				},
 			],
 		};
@@ -518,28 +532,23 @@
 		};
 
 		var loading_screen = {
-			type: jsPsychImageKeyboardResponse,
-			stimulus: jsPsych.timelineVariable("fractal"),
-			css_classes: ["card_container"],
-			choices: "NO_KEYS",
-			trial_duration: 2000,
-		};
-
-		var loading_screen_flip = {
 			type: jsPsychHtmlKeyboardResponse,
-			stimulus: `
+			stimulus: () => {
+				return `
 			<div class="flip_card">
 				<div class="flip_card_inner">
 					<div class="flip_card_front">
-						<p>test</p>
+						<img src=${jsPsych.timelineVariable("fractal")}
 					</div>
 					<div class="flip_card_back">
 						<p>answer</p>
 					</div>
 				</div>
 			</div>
-			`,
-			css_classes: ["card_container"],
+			`;
+			},
+			//choices: "NO_KEYS",
+			//trial_duration: 2000,
 		};
 
 		var trial_answer = {
@@ -693,7 +702,6 @@
 		};
 
 		/* trivia session --------------------------------------------------------------------------------------------------------------*/
-
 		var trivia_instruction = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: `
@@ -721,6 +729,7 @@
 		var trivia_trial = {
 			type: jsPsychSurveyText,
 			on_load: () => {
+				document.querySelector("#input-0").type = "number";
 				document.querySelector(".jspsych-content").insertAdjacentHTML(
 					"afterbegin",
 					`
@@ -737,6 +746,7 @@
 				{
 					prompt: TRIVIA_PROMPT,
 					name: "answer",
+					required: true,
 				},
 			],
 			data: {
@@ -792,7 +802,9 @@
 
 		var experiment_end = {
 			type: jsPsychHtmlKeyboardResponse,
-			stimulus: `
+			stimulus: () => {
+				return;
+				`
 			<h2>This is the end of the experiment!</h2>
 			<p>Let's see how you did:</p>
 			<p class="list" style="margin-left: 20%; color: #1d478c;">
@@ -801,7 +813,9 @@
 			</p>
 			<p>Thank you so much for participanting in our experiment. We hope it was enjoyable :)</p>
 			<p>Goodbye!</p>
-			`,
+			`;
+			},
+			choices: "NO_KEYS",
 		};
 
 		/* timeline groups --------------------------------------------------------------------------------------------------------------*/
@@ -821,7 +835,6 @@
 				trial_prediction,
 				trial_likert,
 				loading_screen,
-				loading_screen_flip,
 				trial_answer,
 				trial_end,
 			],
@@ -834,19 +847,19 @@
 		};
 
 		var trivia_session = {
-			timeline: [trivia_trial, trivia_answer],
+			timeline: [trivia_title_card, trivia_trial, trivia_answer],
 			timeline_variables: random_chosen_trivia_10,
 		};
 
 		/* push everything to timeline */
-		/*timeline.push(preload);
+		//timeline.push(preload);
 		timeline.push(instruction);
-		timeline.push(practice_session);
+		//timeline.push(practice_session);
 		timeline.push(trials_session);
-		timeline.push(trial_break);
+		//timeline.push(trial_break);
 		timeline.push(fractal_session);
-		timeline.push(fractal_break);*/
-		timeline.push(trivia_instruction);
+		//timeline.push(fractal_break);*/
+		//timeline.push(trivia_instruction);
 		timeline.push(trivia_session);
 		timeline.push(experiment_end);
 

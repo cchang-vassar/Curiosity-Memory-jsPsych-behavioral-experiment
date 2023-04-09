@@ -1,5 +1,5 @@
 body {
-    background-color: grey;
+    background-color: #12bbc2;
 }
 
 p {
@@ -14,8 +14,8 @@ p {
 }
 
 .card_container {
-    height: 80vh;
-    width: 40vw;
+    height: 60vh;
+    width: 30vw;
     background-color: #FFFFFF;
     border-radius: 5%;
     border: 0.5rem solid #000000;
@@ -31,12 +31,12 @@ p {
     align-items: center;
 }
 
-/*.card_container > div, .card_container > form {
+.card_container > div, .card_container > form {
     margin-top: 20%;
-}*/
+}
 
 .card_container > img {
-    margin-top: -10%;
+    margin-top: -15%;
     margin-left: -10%;
 }
 
@@ -57,8 +57,9 @@ h3 {
 }
 
 .sv_main.sv_default_css .sv_custom_header {
-    background-color: grey !important;
+    background-color: #12bbc2 !important;
 }
+
 
 .sv_main .sv_container .sv_header {
     margin-top: 5%;
@@ -69,16 +70,17 @@ h3 {
     line-height: 0.1em;
 }
 
+
 .sv_main.sv_default_css {
-    background-color: grey !important;
+    background-color: #12bbc2 !important;
 }
 
 .sv_main.sv_default_css .sv_body {
-    background-color: grey !important;
+    background-color: #12bbc2 !important;
 }
 
 .sv_main.sv_default_css .sv_p_root > .sv_row:nth-child(2n+1) {
-    background-color: grey !important;
+    background-color: #12bbc2 !important;
 }
 
 .sv_main.sv_default_css .sv_q_rating_item.active .sv_q_rating_item_text {
@@ -92,8 +94,8 @@ h3 {
 }
 
 #jspsych-content-wrapper {
-    background-color: grey !important;
-    color: grey !important;
+    background-color: #12bbc2 !important;
+    color: #12bbc2 !important;
 }
 
 #jspsych-survey-text-preamble > h2 {
@@ -117,9 +119,14 @@ h3 {
 
 .flip_card {
     background-color: transparent;;
-    width: 300px;
-    height: 300px;
     perspective: 1000px;
+    height: 60vh;
+    width: 30vw;
+    background-color: #FFFFFF;
+    border-radius: 5%;
+    border: 0.5rem solid #000000;
+    filter: drop-shadow(0.75rem 0.75rem 0.5rem #373737);
+    overflow: hidden;
   }
   
   .flip_card_inner {
