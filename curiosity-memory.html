@@ -536,9 +536,11 @@
 			stimulus: () => {
 				return `
 			<div class="flip_card">
-				<div class="flip_card_inner">
+				<div class="flip_card_inner" style="overflow: hidden;">
 					<div class="flip_card_front">
-						<img src=${jsPsych.timelineVariable("fractal")}>
+						<img src=${jsPsych.timelineVariable(
+							"fractal"
+						)} style="width: 30vw; height: 60vh;">
 					</div>
 					<div class="flip_card_back">
 					<h2 style="margin-top: 40%">${jsPsych.timelineVariable("question")}</h2>
