@@ -122,11 +122,6 @@ h3 {
     perspective: 1000px;
     height: 60vh;
     width: 30vw;
-    background-color: #FFFFFF;
-    border-radius: 5%;
-    border: 0.5rem solid #000000;
-    filter: drop-shadow(0.75rem 0.75rem 0.5rem #373737);
-    overflow: hidden;
   }
   
   .flip_card_inner {
@@ -137,6 +132,11 @@ h3 {
     transition: transform 0.6s;
     transform-style: preserve-3d;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    background-color: #FFFFFF;
+    border-radius: 5%;
+    border: 0.5rem solid #000000;
+    filter: drop-shadow(0.75rem 0.75rem 0.5rem #373737);
+    overflow: hidden;
   }
   
   .flip_card:hover .flip_card_inner {

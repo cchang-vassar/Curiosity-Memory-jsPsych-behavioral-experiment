@@ -541,7 +541,9 @@
 						<img src=${jsPsych.timelineVariable("fractal")}
 					</div>
 					<div class="flip_card_back">
-						<p>answer</p>
+					<h2>${jsPsych.timelineVariable("question")}</h2>
+					<br>
+					<p>Answer: <strong>${jsPsych.timelineVariable("answer")}</strong></p>
 					</div>
 				</div>
 			</div>
@@ -554,17 +556,7 @@
 		var trial_answer = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: function () {
-				var question_answer =
-					"<div style='margin-top: 50%;'>" +
-					"<h2>" +
-					jsPsych.timelineVariable("question") +
-					"</h2>" +
-					"<br>" +
-					"Answer: " +
-					"<strong>" +
-					jsPsych.timelineVariable("answer") +
-					"</strong>" +
-					"</div>";
+				var question_answer = "<div style='margin-top: 50%;'>" + "</div>";
 				return question_answer;
 			},
 			css_classes: ["card_container"],
