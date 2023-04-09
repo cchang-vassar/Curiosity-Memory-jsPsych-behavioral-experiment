@@ -47,6 +47,7 @@
 		var fractal_correct = false;
 		var trivia_number = 1;
 		var trivia_difference = 100;
+		var trivia_percentage_difference = 0;
 
 		/* media preload */
 		var preload = {
@@ -127,7 +128,7 @@
 			},
 			{
 				question: "How long is the Great Wall of China (in miles)?",
-				answer: "13,171",
+				answer: "13171",
 			},
 			{question: "How many bones is a human baby born with?", answer: "300"},
 			{
@@ -753,7 +754,8 @@
 					);
 				}
 				data.difference = percentage_difference;
-				trivia_difference = data.difference;
+				trivia_difference = difference;
+				trivia_percentage_difference = percentage_difference;
 			},
 		};
 
@@ -762,14 +764,15 @@
 			stimulus: () => {
 				trivia_number++;
 				retStr = "";
-				retStr += `<p>Your answer was ${trivia_difference}% different from the answer, ${jsPsych.timelineVariable(
+				retStr += `<h2>The correct answer is ${jsPsych.timelineVariable(
 					"answer"
-				)}.</p>`;
-				if (trivia_difference <= 10) {
+				)}.</h2>`;
+				retStr += `<p>Your answer was different from the answer by ${trivia_difference}.</p>`;
+				if (trivia_percentage_difference <= 10) {
 					retStr += `<p>Excellent. Kudos to you!</p>`;
-				} else if (trivia_difference <= 30) {
+				} else if (trivia_percentage_difference <= 30) {
 					retStr += `<p>A pretty good job indeed.</p>`;
-				} else if (trivia_difference <= 50) {
+				} else if (trivia_percentage_difference <= 50) {
 					retStr += `<p>Not the worst. Can you do better on the next?</p>`;
 				} else {
 					retStr += `<p>Not even close... do better next time!</p>`;
