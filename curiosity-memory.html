@@ -334,6 +334,11 @@
 			type: jsPsychSurveyText,
 			on_load: () => {
 				document.querySelector("#input-0").type = "text";
+				document
+					.querySelector("#input-0")
+					.addEventListener("input", function (event) {
+						this.value = this.value.replace(/[^0-9]/g, "");
+					});
 			},
 			preamble: `
 					<div style="margin-top: -15%;">
@@ -412,7 +417,7 @@
 			],
 		};
 
-		var practice_loading_screen = {
+		var practice_result_screen = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: () => {
 				return `
@@ -428,21 +433,11 @@
 					    </div>
 				    </div>
 			    </div>
-				`
+				`;
 			},
-			choices: "NO_KEYS",
 			response_ends_trial: false,
-			on_start: function(trial){
-				const flipCardInner = document.querySelector(".flip_card_inner");
-				setTimeout(() => {
-					flipCardInner.style.transform = "rotateY(180deg)";
-					setTimeout(() => {
-						flipCardInner.style.transform = "rotateY(0deg)";
-					}, 1000); // Wait for 1 second before flipping back to the front
-				}, 2000);
-			},
-		}
-
+			trial_duration: 5000,
+		};
 
 		var practice_end = {
 			type: jsPsychHtmlKeyboardResponse,
@@ -471,9 +466,11 @@
 			type: jsPsychSurveyText,
 			on_load: () => {
 				document.querySelector("#input-0").type = "text";
-				document.querySelector("#input-0").addEventListener("input", function(event) {
-					this.value = this.value.replace(/[^0-9]/g, '');
-				});
+				document
+					.querySelector("#input-0")
+					.addEventListener("input", function (event) {
+						this.value = this.value.replace(/[^0-9]/g, "");
+					});
 				document.querySelector(".jspsych-content").insertAdjacentHTML(
 					"afterbegin",
 					`
@@ -556,7 +553,7 @@
 			],
 		};
 
-		var loading_screen = {
+		var result_screen = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: () => {
 				return `
@@ -574,8 +571,8 @@
 			</div>
 			`;
 			},
-			//choices: "NO_KEYS",
-			//trial_duration: 2000,
+			choices: "NO_KEYS",
+			trial_duration: 5000,
 		};
 
 		var trial_answer = {
@@ -840,7 +837,7 @@
 			timeline: [
 				practice_prediction,
 				practice_likert,
-				practice_loading_screen,
+				practice_result_screen,
 				practice_end,
 			],
 		};
@@ -850,7 +847,7 @@
 				trial_title_card,
 				trial_prediction,
 				trial_likert,
-				loading_screen,
+				result_screen,
 				// trial_answer,
 				trial_end,
 			],
