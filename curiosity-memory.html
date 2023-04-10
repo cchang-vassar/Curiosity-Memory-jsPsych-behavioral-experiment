@@ -332,6 +332,9 @@
 
 		var practice_prediction = {
 			type: jsPsychSurveyText,
+			on_load: () => {
+				document.querySelector("#input-0").type = "text";
+			}
 			preamble: `
 					<div style="margin-top: -15%;">
 					<h3>PRACTICE TRIAL</h3>
