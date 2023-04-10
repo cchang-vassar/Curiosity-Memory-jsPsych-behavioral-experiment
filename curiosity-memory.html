@@ -334,6 +334,9 @@
 			type: jsPsychSurveyText,
 			on_load: () => {
 				document.querySelector("#input-0").type = "text";
+				document.querySelector("#input-0").addEventListener("input", function(event) {
+					this.value = this.value.replace(/[^0-9]/g, '');
+				});
 			},
 			preamble: `
 					<div style="margin-top: -15%;">
@@ -430,17 +433,6 @@
 			    </div>
 				`
 			},
-			choices: "NO_KEYS",
-			response_ends_trial: false,
-			on_start: function(trial){
-				const flipCardInner = document.querySelector(".flip_card_inner");
-				setTimeout(() => {
-					flipCardInner.style.transform = "rotateY(180deg)";
-					setTimeout(() => {
-						flipCardInner.style.transform = "rotateY(0deg)";
-					}, 1000); // Wait for 1 second before flipping back to the front
-				}, 2000);
-			},
 		}
 
 
@@ -456,16 +448,6 @@
 		};
 
 		/* trials --------------------------------------------------------------------------------------------------------------*/
-		var trial_title_card = {
-			type: jsPsychHtmlKeyboardResponse,
-			stimulus: () => {
-				retStr = "";
-				retStr += `<h1><strong>TRIAL ${trial_number}</strong></h1>`;
-				return retStr;
-			},
-			choices: "NO_KEYS",
-			trial_duration: 2000,
-		};
 
 		var trial_prediction = {
 			type: jsPsychSurveyText,
@@ -505,7 +487,7 @@
 					"afterbegin",
 					`
 						<div>
-						<h3>TRIAL 1</h3>
+						<h3 style="line-height: 2em;">TRIAL ${trial_number}</h3>
 						</div>
 					`
 				);
@@ -604,23 +586,12 @@
 			},
 		};
 
-		var trial_break = {
-			type: jsPsychHtmlKeyboardResponse,
-			stimulus: `
-			<h2>All trivia trials complete.</h2>
-			<p>Great work! Now take a one minute break.</p>
-			<p>The next session will begin automatically after one minute.</p>
-			`,
-			choices: "NO_KEYS",
-			trial_duration: 60000,
-		};
-
 		/* fractal session --------------------------------------------------------------------------------------------------------------*/
 
 		var fractal_instruction = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: `
-			<h2>Good job resting :p</h2>
+			<h2>Good job! You've finished the 30 trials:p</h2>
 			<p>In the next session, you will see two cards on the screen in each trial.
 				On one card is a pattern that you have seen before in the experiment,
 				and on the other card is one you have not seen.</p><br>
@@ -629,20 +600,11 @@
 				and '<span style="color: #FFFFFF;"><strong>j</strong></span>' to choose the card on the right.</p>
 			<p>Have fun!</p>
 			<br>
-			<p>Press <span style="color: #FFFFFF">any key</span> to start the next session</p>
+			<p>The trials will begin in 30 seconds</p>
 			`,
+			trial_duration: 30000,
 		};
 
-		var fractal_title_card = {
-			type: jsPsychHtmlKeyboardResponse,
-			stimulus: () => {
-				retStr = "";
-				retStr += `<h1><strong>PATTERN CHOICE ${fractal_number}</strong></h1>`;
-				return retStr;
-			},
-			choices: "NO_KEYS",
-			trial_duration: 2000,
-		};
 
 		var fractal_trial = {
 			type: jsPsychHtmlKeyboardResponse,
@@ -671,6 +633,7 @@
 				return retStr;
 			},
 			choices: ["f", "j"],
+			trial_duration: 500,
 			data: {
 				task: "response",
 				correct_response: jsPsych.timelineVariable("correct_response"),
@@ -707,46 +670,29 @@
 			trial_duration: 1000,
 		};
 
-		var fractal_break = {
-			type: jsPsychHtmlKeyboardResponse,
-			stimulus: `
-			<h2>You completed all the pattern trials.</h2>
-			<p>Great work! Now take a one minute break.</p>
-			<p>The next session will begin automatically after one minute.</p>
-			`,
-			choices: "NO_KEYS",
-			trial_duration: 60000,
-		};
 
 		/* trivia session --------------------------------------------------------------------------------------------------------------*/
 		var trivia_instruction = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: `
-			<h2>Good job resting :p</h2>
+			<h2>Good job :p</h2>
 			<p>In the next session, you will see a trivia question on the screen in each trial.</p>
 			<p>Each of these trivia questions is chosen from the questions you have already seen in the first session of the experiment.</p><br>
 			<p>Your task is to answer the trivia question based on what you remember as accurately as you can.</p>
 			<p>Have fun!</p>
 			<br>
-			<p>Press <span style="color: #FFFFFF">any key</span> to start the next session</p>
+			<p>The trials will begin in 30 seconds</p>
 			`,
-		};
-
-		var trivia_title_card = {
-			type: jsPsychHtmlKeyboardResponse,
-			stimulus: () => {
-				retStr = "";
-				retStr += `<h1><strong>TRIVIA ${trivia_number}</strong></h1>`;
-				return retStr;
-			},
-			choices: "NO_KEYS",
-			trial_duration: 2000,
+			trial_duration: 30000,
 		};
 
 		var trivia_trial = {
 			type: jsPsychSurveyText,
 			on_load: () => {
-				document.querySelector("#input-0").type = "number";
+				document.querySelector("#input-0").type = "text";
+				document.querySelector("#input-0").addEventListener("input", function(event) {
+					this.value = this.value.replace(/[^0-9]/g, '');
+				});
 				document.querySelector(".jspsych-content").insertAdjacentHTML(
 					"afterbegin",
 					`
@@ -766,6 +712,7 @@
 					required: true,
 				},
 			],
+			trial_duration: 6000,
 			data: {
 				task: "response",
 				correct_response: jsPsych.timelineVariable("answer"),
@@ -814,7 +761,7 @@
 				return retStr;
 			},
 			choices: "NO_KEYS",
-			trial_duration: 3000,
+			trial_duration: 2500,
 		};
 
 		var experiment_end = {
@@ -847,7 +794,6 @@
 
 		var trials_session = {
 			timeline: [
-				trial_title_card,
 				trial_prediction,
 				trial_likert,
 				loading_screen,
@@ -858,12 +804,12 @@
 		};
 
 		var fractal_session = {
-			timeline: [fractal_title_card, fractal_trial, fractal_answer],
+			timeline: [fractal_trial, fractal_answer],
 			timeline_variables: implicit_test_stimuli,
 		};
 
 		var trivia_session = {
-			timeline: [trivia_title_card, trivia_trial, trivia_answer],
+			timeline: [trivia_trial, trivia_answer],
 			timeline_variables: random_chosen_trivia_10,
 		};
 
@@ -872,10 +818,8 @@
 		timeline.push(instruction);
 		timeline.push(practice_session);
 		timeline.push(trials_session);
-		timeline.push(trial_break);
 		timeline.push(fractal_instruction);
 		timeline.push(fractal_session);
-		timeline.push(fractal_break);
 		timeline.push(trivia_instruction);
 		timeline.push(trivia_session);
 		timeline.push(experiment_end);
