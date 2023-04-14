@@ -3,7 +3,7 @@
 		/* initialize jsPsych */
 		var jsPsych = initJsPsych({
 			on_finish: function () {
-				jsPsych.data.displayData();
+				window.location = "https://app.prolific.co/submissions/complete?cc=C1ASTM2P";
 			},
 		});
 
@@ -32,6 +32,25 @@
 		var trivia_correct_tally = 0;
 
 		var repeat_loop = false;
+
+		/* get prolific subject ID */
+		var prolific_id = jsPsych.data.getURLVariable("PROLIFIC_PID");
+		if(prolific_id=="" || prolific_id==null){
+			prolific_id = jsPsych.randomization.randomID(10);
+		}
+
+		/* get prolific session ID */
+		var session_id = jsPsych.data.getURLVariable("SESSION_ID");
+
+		/* get prolific study ID */
+		var study_id = jsPsych.data.getURLVariable("STUDY_ID");
+
+		/* add prolific ID to data */
+		jsPsych.data.addProperties({
+			prolific_id: prolific_id,
+			session_id: session_id,
+			study_id: study_id,
+		});
 
 		/* media preload */
 		var preload = {
@@ -746,6 +765,14 @@
 			trial_duration: 2500,
 		};
 
+		var save_data = {
+			type: jsPsychPipe,
+			action: "save",
+			experiment_id: "gnOCQZoXaGju",
+			filename: `${prolific_id}.json`,
+			data: ()=>jsPsych.data.get().json(),
+		}
+
 		var experiment_end = {
 			type: jsPsychHtmlKeyboardResponse,
 			stimulus: () => {
@@ -805,6 +832,7 @@
 		timeline.push(fractal_session);
 		timeline.push(trivia_instruction);
 		timeline.push(trivia_session);
+		timeline.push(save_data);
 		timeline.push(experiment_end);
 
 		/* start the experiment */
