@@ -785,7 +785,7 @@
 						2)	Number of correct trivia questions answered: ${trivia_correct_tally} / 10<br>
 					</p>
 					<p>Thank you so much for participanting in our experiment. We hope it was enjoyable :)</p>
-					<p>Goodbye!</p>
+					<p>Press any key to return to Prolific and complete the experiment. Goodbye!</p>
 				`;
 				return retStr;
 			},
