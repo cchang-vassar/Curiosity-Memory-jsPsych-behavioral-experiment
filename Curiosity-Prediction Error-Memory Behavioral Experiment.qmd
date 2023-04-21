@@ -1,0 +1,139 @@
+---
+title: "Effects of Initial Curiosity and Prediction Error on Explicit and Incidental Memory Formation"
+authors: "Cherrie Chang, Amaavi Miriyagalla, Jasmine Shao"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: Load R libraries
+#| echo: false
+#| message: false
+
+library(osfr)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(ez)
+```
+
+```{r}
+#| label: Retrieve the data from OSF
+#| echo: false
+#| include: false
+
+osf_retrieve_node("ubnxa") %>%
+  osf_ls_files() %>%
+  osf_download(path = "data/", conflicts = "skip")
+```
+
+```{r}
+#| label: Convert Files from JSON to CSV
+#| echo: false
+#| include: false
+
+files <- list.files("data") %>%
+  data <- lapply(files, fromJSON) %>%
+  bind_rows()
+```
+
+## Introduction
+
+## Methods
+
+```{r}
+#| label: Load the Data
+#| message: false
+#| echo: false
+
+behavioral.data <- read.csv('data/behavioral.csv')
+```
+
+```{r}
+#| label: Count the Number of Subjects
+#| echo: false
+
+n.subjects <- behavioral.data %>%
+  pull(subject) %>%
+  unique() %>%
+  length()
+```
+
+### Pre-Registration & Open Materials
+
+All stimuli, experiment scripts, data, and analysis scripts are available on the Open Science Framework at <https://osf.io/v35df/>. The pre-registration for this study is also available at <https://osf.io/w3qh4>. This study was approved by the Vassar College Institutional Review Board, and all participants provided informed consent prior to their participation.
+
+### Participants
+
+### Procedure
+
+## Results
+
+```{r}
+#| label: Summarize behavioral data
+#| message: false
+#| echo: false
+
+behavioral.summary <- behavioral.data %>%
+  group_by() %>%
+  summarise()
+```
+
+```{r}
+#| label: Exclude Subjects Who Got >20 Questions Correct in the Initial Round
+#| message: false
+#| echo: false
+
+
+```
+
+```{r}
+#| label: Exclude Subjects Who Do Not Have Variable Responses to Write-in/Scale Questions
+#| message: false
+#| echo: false
+
+```
+
+### Z-Scores
+
+```{r}
+#| label: Prediction Error Z-Scores (each participant AND each question)
+#| message: false
+#| echo: false
+```
+
+```{r}
+#| label: Curiosity Z-Scores (each participant)
+#| message: false
+#| echo: false
+```
+
+### Regressions
+
+```{r}
+#| label: Explicit Memory Regression
+#| message: false
+#| echo: false
+```
+
+```{r}
+#| label: Incidental Memory Regression
+#| message: false
+#| echo: false
+```
+
+## Discussion
+
+## References
+
+Cervera, R. L., Wang, M. Z., & Hayden, B. Y. (2020). Systems neuroscience of curiosity. Current Opinion in Behavioral Sciences, 35, 48--55. https://doi.org/10.1016/j.cobeha. 2020.06.011
+
+Fernández, R. S., Boccia, M. M., & Pedreira, M. E. (2016). The fate of memory: Reconsolidation and the case of prediction error. Neuroscience & Biobehavioral Reviews, 68, 423--441. https://doi.org/10.1016/j.neubiorev.2016.06.004
+
+Gruber, M. J., Gelman, B. D., & Ranganath, C. (2014). States of curiosity modulate hippocampus-dependent learning via the dopaminergic circuit. Neuron, 84(2), 486--496. https://doi.org/10.1016/j.neuron.2014.08.060
+
+Kang, M. J., Hsu, M., Krajbich, I. M., Loewenstein, G., McClure, S. M., Wang, J. T., & Camerer, C. F. (2009). The Wick in the Candle of Learning: Epistemic Curiosity Activates Reward Circuitry and Enhances Memory. Psychological Science, 20(8), 963--973. https://doi.org/10.1111/j.1467-9280.2009.02402
+
+van Lieshout, L. L. F., de Lange, F. P., & Cools, R. (2020). Why so curious? quantifying mechanisms of information seeking. Current Opinion in Behavioral Sciences, 35, 112--117. https://doi.org/10.1016/j.cobeha.2020.08.005
+
+Wade, S., & Kidd, C. (2019). The role of prior knowledge and curiosity in learning. Psychonomic Bulletin & Review, 26(4), 1377--1387. https://doi.org/10.3758/s13423 -019-01598-6
