@@ -45,24 +45,6 @@ data <- lapply(files, fromJSON) %>%
 
 ## Methods
 
-```{r}
-#| label: Load the Data
-#| message: false
-#| echo: false
-
-behavioral.data <- read.csv('data/behavioral.csv')
-```
-
-```{r}
-#| label: Count the Number of Subjects
-#| echo: false
-
-n.subjects <- behavioral.data %>%
-  pull(subject) %>%
-  unique() %>%
-  length()
-```
-
 ### Pre-Registration & Open Materials
 
 All stimuli, experiment scripts, data, and analysis scripts are available on the Open Science Framework at <https://osf.io/v35df/>. The pre-registration for this study is also available at <https://osf.io/w3qh4>. This study was approved by the Vassar College Institutional Review Board, and all participants provided informed consent prior to their participation.
@@ -264,8 +246,12 @@ data.filtered.correct <- data.filtered.correct %>%
 ```
 
 ```{r}
+#| label: selecting in data.filtered.correct
+#| echo: false
+#| message: false
+
 data.filtered.correct <- data.filtered.correct %>%
-  select(c(trial_index, session_id, task, trial_type, stimulus_key, stimulus, response, question_correct_answer, correct_response, trivia_difference, fractal_correctdw2)) %>%
+  select(c(trial_index, session_id, task, trial_type, stimulus_key, stimulus, response, question_correct_answer, correct_response, trivia_difference, fractal_correct)) %>%
   group_by(session_id) %>%
   distinct(trial_index, .keep_all = TRUE)
 ```
@@ -274,6 +260,7 @@ data.filtered.correct <- data.filtered.correct %>%
 #| label: extract fractal image number from stimulus
 #| echo: false
 #| include: false
+#| message: false
 
 img1Finder <- function(stimulus) {
   return(grepl("img/1.png", stimulus))
@@ -430,17 +417,18 @@ data.filtered.fractals.trials <- data.filtered.correct %>%
                                                                                                                                                                                                                                   ifelse(img30Finder(stimulus), 30, NA)))))))))))))))))))))))))))))))
 
 data.filtered.fractals.trials <- data.filtered.fractals.trials %>%
-  select(c("trial_index", "session_id", "task", "stimulus", "fractal_img"))
+  select(c("trial_index", "session_id", "task","stimulus", "fractal_img"))
 
 data.count <- filter(data.filtered.fractals.trials, is.na(fractal_img))
 
-data.filtered.correct <- left_join(data.filtered.correct, data.filtered.fractals.trials, by=c("trial_index", "session_id", "stimulus"))
+data.filtered.correct <- left_join(data.filtered.correct, data.filtered.fractals.trials, by=c("trial_index", "session_id", "stimulus", "task"))
 ```
 
 ```{r}
 #| label: update stimulus key, correct answer for all relevant rows
 #| echo: false
 #| include: false
+#| message: false
 
 for (i in 1:nrow(data.filtered.correct)) {
   currentKey <- data.filtered.correct$stimulus_key[i]
@@ -460,10 +448,10 @@ for (i in 1:nrow(data.filtered.correct)) {
 ```
 
 ```{r}
-#| label: extract numeric answer of subject response for prediction, curiosity
-#| and prior knowledge
+#| label: extract numeric answer of subject response for prediction, curiosity and prior knowledge
 #| echo: false
 #| include: false
+#| message: false
 
 data.filtered.correct <- data.filtered.correct %>%
   mutate(prediction_num = NA) %>%
@@ -487,13 +475,11 @@ for (i in 1:nrow(data.filtered.correct)) {
 #| label: add stimulus key back for trivia questions
 #| echo: false
 #| include: false
+#| message: false
 
 data.filtered.trivia <- data.filtered.correct %>%
   filter(task == "trivia")
 
-```
-
-```{r}
 for (i in 1:nrow(data.filtered.trivia)) {
   if (data.filtered.trivia$correct_response[i] == 2007) {
     data.filtered.trivia$stimulus_key[i] = "iPhone"
@@ -573,6 +559,11 @@ for (i in 1:nrow(data.filtered.trivia)) {
 ```
 
 ```{r}
+#| Label: merge back to data.filtered.correct
+#| echo: false
+#| message: false
+#| warning: false
+
 data.filtered.trivia <- data.filtered.trivia %>%
   select(c('trial_index', 'session_id', 'stimulus_key'))
 
@@ -585,17 +576,15 @@ data.filtered.correct$correct_response <- as.numeric(data.filtered.correct$corre
 data.filtered.correct$correct_answer <- coalesce(data.filtered.correct$question_correct_answer, data.filtered.correct$correct_response)
 
 data.filtered.correct <- data.filtered.correct %>%
-  select(c('trial_index', 'session_id', 'task', 'trial_type', 'stimulus_key', 'correct_answer', 'trivia_difference', 'fractal_correct', 'prediction_num', 'curiosity_num', 'prior_knowledge_num'))
+  select(c('trial_index', 'session_id', 'task', 'trial_type', 'stimulus_key', 'correct_answer', 'trivia_difference', 'fractal_correct', 'prediction_num', 'curiosity_num', 'prior_knowledge_num', 'fractal_img'))
 
 ```
 
 ```{r}
-#| label: calculate IPE values in separate dataframe
-#| There is a single row where the prediction entered by the subject is so large that
-#| the difference between their answer and the correct answer is computed to NA in R.
-#| We thus hard-coded the actual difference value in the if statement below.
+#| label: calculate IPE values in separate dataframe. There is a single row where the prediction entered by the subject is so large that the difference between their answer and the correct answer is computed to NA in R. We thus hard-coded the actual difference value in the if statement below.
 #| echo: false
 #| include: false
+#| message: false
 
 data.filtered.IPE <- data.filtered.correct %>%
   filter(task == "prediction") %>%
@@ -613,6 +602,7 @@ for (i in 1:nrow(data.filtered.IPE)) {
 #| label: join the IPE column back into main dataframe
 #| echo: false
 #| include: false
+#| message: false
 
 data.filtered.IPE.simplified <- data.filtered.IPE %>%
   filter(!is.na(IPE)) %>%
@@ -621,12 +611,11 @@ data.filtered.IPE.simplified <- data.filtered.IPE %>%
 data.filtered.correct <- left_join(data.filtered.correct, data.filtered.IPE.simplified, by = c('session_id', 'trial_index'))
 
 data.filtered.correct <- data.filtered.correct %>%
-  select(c('trial_index', 'session_id', "task", "trial_type", "stimulus_key", "curiosity_num", "prior_knowledge_num", "prediction_num", "correct_answer", "IPE", "trivia_difference", "fractal_correct"))
+  select(c('trial_index', 'session_id', "task", "trial_type", "stimulus_key", "curiosity_num", "prior_knowledge_num", "prediction_num", "correct_answer", "IPE", "trivia_difference", "fractal_correct","fractal_img"))
 ```
 
 ```{r}
-#| label: Exclude Subjects Who Got >20 Questions Correct in the Initial Round
-#| someone got all of them wrong therefore only 79 rows!
+#| label: Exclude Subjects Who Got >20 Questions Correct in the Initial Round. Someone got all of them wrong therefore only 79 rows!
 #| message: false
 #| echo: false
 
@@ -653,6 +642,8 @@ data.consistent.subs <- data.filtered.correct %>%
 #| label: Prediction Error Z-Scores (each participant AND each question)
 #| message: false
 #| echo: false
+#| warning: false
+
 
 z.scores.IPE <- data.filtered.correct %>%
   filter(task == "prediction") %>%
@@ -664,13 +655,36 @@ z.scores.IPE <- data.filtered.correct %>%
 
 ggplot(z.scores.IPE, aes(x = session_id, y = z_score_IPE)) +
   geom_point(size = 0.5) +
-  facet_wrap(~ stimulus_key) 
+  facet_wrap(~ stimulus_key) + 
+  labs(caption = "")
+```
+
+```{r}
+#| label: 10 trivia questions Z-Scores (each participant AND each question)
+#| message: false
+#| echo: false
+#| warning: false
+
+z.scores.trivia <- data.filtered.correct %>%
+  filter(task == "trivia" & !is.na(stimulus_key)) %>%
+  select(c(trial_index, session_id, stimulus_key, trivia_difference)) %>%
+  group_by(stimulus_key) %>%
+  mutate(trivia_difference_mean = mean(trivia_difference)) %>%
+  mutate(trivia_difference_sd = sd(trivia_difference)) %>%
+  mutate(z_score_trivia = (trivia_difference - trivia_difference_mean) / trivia_difference_sd)
+
+ggplot(z.scores.trivia, aes(x = session_id, y = z_score_trivia)) +
+  geom_point(size = 0.5) +
+  facet_wrap(~ stimulus_key) + 
+  labs(caption = "")
 ```
 
 ```{r}
 #| label: Curiosity Z-Scores (each participant)
 #| message: false
 #| echo: false
+#| warning: false
+
 
 z.scores.curiosity <- data.filtered.correct %>%
   filter(task == "likert") %>%
@@ -682,7 +696,8 @@ z.scores.curiosity <- data.filtered.correct %>%
 
 ggplot(z.scores.curiosity, aes(x = stimulus_key, y = z_score_curiosity)) +
   geom_point(size = 0.5) +
-  facet_wrap(~ session_id) 
+  facet_wrap(~ session_id) + 
+  labs(caption = "")
 ```
 
 ### Regressions
@@ -692,9 +707,8 @@ ggplot(z.scores.curiosity, aes(x = stimulus_key, y = z_score_curiosity)) +
 #| message: false
 #| echo: false
 
-data.filtered.trivia.simplified <- data.filtered.correct %>%
-  filter(task == 'trivia') %>%
-  select(c('session_id', 'stimulus_key', 'trivia_difference'))
+data.filtered.trivia.simplified <- z.scores.trivia %>%
+  select(c('session_id', 'stimulus_key', 'z_score_trivia'))
 
 z.scores.curiosity.simplified <- z.scores.curiosity %>%
   select(c('session_id', 'stimulus_key', 'z_score_curiosity'))
@@ -702,7 +716,7 @@ z.scores.curiosity.simplified <- z.scores.curiosity %>%
 z.scores.IPE.simplified <- z.scores.IPE %>%
   select(c('session_id', 'stimulus_key', 'z_score_IPE'))
 
-data.filtered.regression.merged <- left_join(drop_na(data.filtered.trivia.simplified), z.scores.curiosity.simplified, by = c('session_id', 'stimulus_key'))
+data.filtered.regression.merged <- left_join(drop_na(na.omit(data.filtered.trivia.simplified)), z.scores.curiosity.simplified, by = c('session_id', 'stimulus_key'))
 
 data.filtered.regression.merged <- left_join(data.filtered.regression.merged, z.scores.IPE.simplified, by = c('session_id', 'stimulus_key'))
 
@@ -714,24 +728,54 @@ data.filtered.regression.merged <- drop_na(na.omit(data.filtered.regression.merg
 #| message: false
 #| echo: false
 
-explicit.memory.regression <- lm(data.filtered.regression.merged$trivia_difference ~ data.filtered.regression.merged$z_score_curiosity + data.filtered.regression.merged$z_score_IPE + (data.filtered.regression.merged$z_score_curiosity * data.filtered.regression.merged$z_score_IPE))
+explicit.memory.regression <- lm(data.filtered.regression.merged$z_score_trivia ~ data.filtered.regression.merged$z_score_curiosity + data.filtered.regression.merged$z_score_IPE + (data.filtered.regression.merged$z_score_curiosity * data.filtered.regression.merged$z_score_IPE))
+```
+
+```{r}
+#| label: Explicit Memory Regression Plot
+#| message: false
+#| echo: false
+
+ggplot(data.filtered.regression.merged, aes(x = z_score_IPE, y = z_score_trivia)) +
+  geom_point(size = 0.5) +
+  geom_smooth() + 
+  ggtitle("The effects of prediction error on explicit memory") + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  labs(caption = "")
 ```
 
 ```{r}
 #| label: get fractal image number for each fractal trial across all subjects
 #| echo: false
 #| include: false
+#| message: false
 
 data.filtered.fractals <- filter(data.filtered.correct, task == "fractal_response" & !is.na(fractal_correct)) %>%
-  select(c('trial_index', 'session_id', 'fractal_correct'))
+  select(c('session_id', 'fractal_correct', 'fractal_img'))
 
-data.filtered.fractals
+stimulus.key.fractal.pair <- data.filtered.correct %>%
+  filter(!is.na(fractal_img)) %>%
+  filter(task != "fractal_response") %>%
+  select(c("session_id","stimulus_key","fractal_img"))
+
+data.filtered.fractals.merged <- left_join(data.filtered.fractals, stimulus.key.fractal.pair, by=c("session_id","fractal_img")) %>%
+  select(-c("fractal_img"))
+
+data.filtered.implicit <- left_join(data.filtered.fractals.merged, z.scores.curiosity.simplified, by=c("session_id","stimulus_key"))
+
+data.filtered.implicit.merged <- left_join(data.filtered.implicit, z.scores.IPE.simplified, by=c("session_id","stimulus_key")) %>%
+  select(-c("stimulus_key"))
+
+data.filtered.implicit.merged$fractal_correct = as.numeric(data.filtered.implicit.merged$fractal_correct)
 ```
 
 ```{r}
 #| label: Incidental Memory Regression
 #| message: false
 #| echo: false
+
+
+implicit.memory.regression <- lm(data.filtered.implicit.merged$fractal_correct ~ data.filtered.implicit.merged$z_score_curiosity + data.filtered.implicit.merged$z_score_IPE + (data.filtered.implicit.merged$z_score_curiosity * data.filtered.implicit.merged$z_score_IPE))
 ```
 
 ## Discussion
