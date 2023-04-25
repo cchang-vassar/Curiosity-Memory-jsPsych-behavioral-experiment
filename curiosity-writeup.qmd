@@ -17,6 +17,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(ez)
+library(stringr)
 ```
 
 ```{r}
@@ -87,7 +88,7 @@ data <- data %>%
 #| echo: false
 #| include: false
 
-data.filtered <- subset(data, select = -c(success, timeout, internal_node_id, prolific_id, failed_images, failed_audio, failed_video, study_id))
+data.filtered <- subset(data, select = c(trial_index, session_id, task, trial_type, stimulus, response, correct_response, difference, correct))
 ```
 
 ```{r}
@@ -257,9 +258,189 @@ data.filtered.flips <- data.filtered.flips %>%
 
 data.filtered.correct <- left_join(data.filtered, data.filtered.flips, by="stimulus")
 data.filtered.correct <- data.filtered.correct %>%
-  select(-c(stimulus)) %>%
+  mutate(question_correct_answer = as.numeric(correct_answer)) %>%
+  mutate(trivia_difference = as.numeric(difference)) %>%
+  mutate(fractal_correct = correct)
+```
+
+```{r}
+data.filtered.correct <- data.filtered.correct %>%
+  select(c(trial_index, session_id, task, trial_type, stimulus_key, stimulus, response, question_correct_answer, correct_response, trivia_difference, fractal_correctdw2)) %>%
   group_by(session_id) %>%
   distinct(trial_index, .keep_all = TRUE)
+```
+
+```{r}
+#| label: extract fractal image number from stimulus
+#| echo: false
+#| include: false
+
+img1Finder <- function(stimulus) {
+  return(grepl("img/1.png", stimulus))
+}
+
+img2Finder <- function(stimulus) {
+  return(grepl("img/2.png", stimulus))
+}
+
+img3Finder <- function(stimulus) {
+  return(grepl("img/3.png", stimulus))
+}
+  
+img4Finder <- function(stimulus) {
+  return(grepl("img/4.png", stimulus))
+}
+  
+img5Finder <- function(stimulus) {
+  return(grepl("img/5.png", stimulus))
+}
+
+img6Finder <- function(stimulus) {
+  return(grepl("img/6.png", stimulus))
+}
+  
+img7Finder <- function(stimulus) {
+  return(grepl("img/7.png", stimulus))
+}
+  
+img8Finder <- function(stimulus) {
+  return(grepl("img/8.png", stimulus))
+}
+
+img9Finder <- function(stimulus) {
+  return(grepl("img/9.png", stimulus))
+}
+
+img10Finder <- function(stimulus) {
+  return(grepl("img/10.png", stimulus))
+}
+
+img11Finder <- function(stimulus) {
+  return(grepl("img/11.png", stimulus))
+}
+
+img12Finder <- function(stimulus) {
+  return(grepl("img/12.png", stimulus))
+}
+
+img13Finder <- function(stimulus) {
+  return(grepl("img/13.png", stimulus))
+}
+
+img14Finder <- function(stimulus) {
+  return(grepl("img/14.png", stimulus))
+}
+
+img15Finder <- function(stimulus) {
+  return(grepl("img/15.png", stimulus))
+}
+
+img16Finder <- function(stimulus) {
+  return(grepl("img/16.png", stimulus))
+}
+
+img17Finder <- function(stimulus) {
+  return(grepl("img/17.png", stimulus))
+}
+
+img18Finder <- function(stimulus) {
+  return(grepl("img/18.png", stimulus))
+}
+
+img19Finder <- function(stimulus) {
+  return(grepl("img/19.png", stimulus))
+}
+
+img20Finder <- function(stimulus) {
+  return(grepl("img/20.png", stimulus))
+}
+
+img21Finder <- function(stimulus) {
+  return(grepl("img/21.png", stimulus))
+}
+
+img22Finder <- function(stimulus) {
+  return(grepl("img/22.png", stimulus))
+}
+
+img23Finder <- function(stimulus) {
+  return(grepl("img/23.png", stimulus))
+}
+
+img24Finder <- function(stimulus) {
+  return(grepl("img/24.png", stimulus))
+}
+
+img25Finder <- function(stimulus) {
+  return(grepl("img/25.png", stimulus))
+}
+
+img26Finder <- function(stimulus) {
+  return(grepl("img/26.png", stimulus))
+}
+
+img27Finder <- function(stimulus) {
+  return(grepl("img/27.png", stimulus))
+}
+
+img28Finder <- function(stimulus) {
+  return(grepl("img/28.png", stimulus))
+}
+
+img29Finder <- function(stimulus) {
+  return(grepl("img/29.png", stimulus))
+}
+
+img30Finder <- function(stimulus) {
+  return(grepl("img/30.png", stimulus))
+}
+
+data.filtered.fractals.trials <- data.filtered.correct %>%
+  filter(task == "fractal_response" | grepl("flip_card", stimulus)) %>%
+  filter(!((task == "fractal_response") & is.na(fractal_correct))) %>%
+  mutate(fractal_img = ifelse(img1Finder(stimulus), 1,
+                              ifelse(img2Finder(stimulus), 2, 
+                                     ifelse(img3Finder(stimulus), 3, 
+                                            ifelse(img4Finder(stimulus), 4, 
+                                                   ifelse(img5Finder(stimulus), 5, 
+                                                          ifelse(img6Finder(stimulus), 6,
+                                                                 ifelse(img7Finder(stimulus), 7,
+                                                                        ifelse(img8Finder(stimulus), 8,
+                                                                               ifelse(img9Finder(stimulus), 9,
+                                                                                      ifelse(img10Finder(stimulus), 10,
+                                                                                             ifelse(img11Finder(stimulus), 11,
+                                                                                                    ifelse(img12Finder(stimulus), 12,
+                                                                                                           ifelse(img13Finder(stimulus), 13,
+                                                                                                                  ifelse(img14Finder(stimulus), 14,
+                                                                                                                         ifelse(img15Finder(stimulus), 15,
+                                                                                                                                ifelse(img16Finder(stimulus), 16,
+                                                                                                                                       ifelse(img17Finder(stimulus), 17,
+                                                                                                                                              ifelse(img18Finder(stimulus), 18,
+                                                                                                                                                     ifelse(img19Finder(stimulus), 19,
+                                                                                                                                                            ifelse(img20Finder(stimulus), 20,
+                                                                                                                                                                   ifelse(img21Finder(stimulus), 21,
+                                                                                                                                                                          ifelse(img22Finder(stimulus), 22,
+                                                                                                                                                                                 ifelse(img23Finder(stimulus), 23,
+                                                                                                                                                                                        ifelse(img24Finder(stimulus), 24,
+                                                                                                                                                                                               ifelse(img25Finder(stimulus), 25,
+                                                                                                                                                                                                      ifelse(img26Finder(stimulus), 26,
+                                                                                                                                                                                                             ifelse(img27Finder(stimulus), 27,
+                                                                                                                                                                                                                    ifelse(img28Finder(stimulus), 28,
+                                                                                                                                                                                                                           ifelse(img29Finder(stimulus), 29,
+                                                                                                                                                                                                                                  ifelse(img30Finder(stimulus), 30, NA)))))))))))))))))))))))))))))))
+
+data.filtered.fractals.trials <- data.filtered.fractals.trials %>%
+  select(c("trial_index", "session_id", "task", "stimulus", "fractal_img"))
+
+data.count <- filter(data.filtered.fractals.trials, is.na(fractal_img))
+
+data.filtered.correct <- left_join(data.filtered.correct, data.filtered.fractals.trials, by=c("trial_index", "session_id", "stimulus"))
+```
+
+```{r}
+#| label: update stimulus key, correct answer for all relevant rows
+#| echo: false
+#| include: false
 
 for (i in 1:nrow(data.filtered.correct)) {
   currentKey <- data.filtered.correct$stimulus_key[i]
@@ -270,12 +451,142 @@ for (i in 1:nrow(data.filtered.correct)) {
 }
 
 for (i in 1:nrow(data.filtered.correct)) {
-  currentKey <- data.filtered.correct$correct_answer[i]
+  currentKey <- data.filtered.correct$question_correct_answer[i]
   if (!is.na(currentKey)) {
-    data.filtered.correct$correct_answer[i-1] = currentKey
-    data.filtered.correct$correct_answer[i-2] = currentKey
+    data.filtered.correct$question_correct_answer[i-1] = currentKey
+    data.filtered.correct$question_correct_answer[i-2] = currentKey
   }
 }
+```
+
+```{r}
+#| label: extract numeric answer of subject response for prediction, curiosity
+#| and prior knowledge
+#| echo: false
+#| include: false
+
+data.filtered.correct <- data.filtered.correct %>%
+  mutate(prediction_num = NA) %>%
+  mutate(curiosity_num = NA) %>%
+  mutate(prior_knowledge_num = NA)
+
+for (i in 1:nrow(data.filtered.correct)) {
+  if (!is.na(data.filtered.correct$response[i])) {
+    if (data.filtered.correct$task[i] == "prediction") {
+      data.filtered.correct$prediction_num[i] = as.integer(data.filtered.correct[i, ]$response[[1]]$prediction[1])
+    }
+    else if (data.filtered.correct$task[i] == "likert") {
+      data.filtered.correct$curiosity_num[i] = as.integer(data.filtered.correct[i, ]$response[[1]]$curiosity[1])
+      data.filtered.correct$prior_knowledge_num[i] = as.integer(data.filtered.correct[i, ]$response[[1]]$`prior knowledge`)
+    }
+  }
+}
+```
+
+```{r}
+#| label: add stimulus key back for trivia questions
+#| echo: false
+#| include: false
+
+data.filtered.trivia <- data.filtered.correct %>%
+  filter(task == "trivia")
+
+```
+
+```{r}
+for (i in 1:nrow(data.filtered.trivia)) {
+  if (data.filtered.trivia$correct_response[i] == 2007) {
+    data.filtered.trivia$stimulus_key[i] = "iPhone"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 28) {
+    data.filtered.trivia$stimulus_key[i] = "Indian classical dance"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 65) {
+    data.filtered.trivia$stimulus_key[i] = "Stephen King"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 7917.5) {
+    data.filtered.trivia$stimulus_key[i] = "diameter"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 6) {
+    data.filtered.trivia$stimulus_key[i] = "Vietnamese"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 1989) {
+    data.filtered.trivia$stimulus_key[i] = "Berlin Wall"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 5) {
+    data.filtered.trivia$stimulus_key[i] = "Muslims"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 54) {
+    data.filtered.trivia$stimulus_key[i] = "How many countries are in Africa?"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 108) {
+    data.filtered.trivia$stimulus_key[i] = "stitches"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 88) {
+    data.filtered.trivia$stimulus_key[i] = "constellations"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 1907) {
+    data.filtered.trivia$stimulus_key[i] = "Frida"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 13171) {
+    data.filtered.trivia$stimulus_key[i] = "Great Wall of China"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 300) {
+    data.filtered.trivia$stimulus_key[i] = "human baby"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 21) {
+    data.filtered.trivia$stimulus_key[i] = "How many countries in Africa have French as the official language?"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 1912) {
+    data.filtered.trivia$stimulus_key[i] = "titanic"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 73) {
+    data.filtered.trivia$stimulus_key[i] = "Catholic Bible"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 79) {
+    data.filtered.trivia$stimulus_key[i] = "vegan"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 1896) {
+    data.filtered.trivia$stimulus_key[i] = "Olympic"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 1901) {
+    data.filtered.trivia$stimulus_key[i] = "Nobel"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 163) {
+    data.filtered.trivia$stimulus_key[i] = "Burj Khalifa"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 19) {
+    data.filtered.trivia$stimulus_key[i] = "King Tut"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 8) {
+    data.filtered.trivia$stimulus_key[i] = "Arctic"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 12) {
+    data.filtered.trivia$stimulus_key[i] = "calendar"
+  }
+  else if (data.filtered.trivia$correct_response[i] == 11) {
+    data.filtered.trivia$stimulus_key[i] = "soccer"
+  }
+  else {
+  }
+}
+```
+
+```{r}
+data.filtered.trivia <- data.filtered.trivia %>%
+  select(c('trial_index', 'session_id', 'stimulus_key'))
+
+data.filtered.correct <- left_join(data.filtered.correct, data.filtered.trivia, by=c('trial_index', 'session_id'))
+
+data.filtered.correct$stimulus_key <- coalesce(data.filtered.correct$stimulus_key.x, data.filtered.correct$stimulus_key.y)
+
+data.filtered.correct$correct_response <- as.numeric(data.filtered.correct$correct_response)
+
+data.filtered.correct$correct_answer <- coalesce(data.filtered.correct$question_correct_answer, data.filtered.correct$correct_response)
+
+data.filtered.correct <- data.filtered.correct %>%
+  select(c('trial_index', 'session_id', 'task', 'trial_type', 'stimulus_key', 'correct_answer', 'trivia_difference', 'fractal_correct', 'prediction_num', 'curiosity_num', 'prior_knowledge_num'))
+
 ```
 
 ```{r}
@@ -286,12 +597,14 @@ for (i in 1:nrow(data.filtered.correct)) {
 #| echo: false
 #| include: false
 
-data.IPE <- filter(data.filtered.correct, (task == "prediction") | (!is.na(correct_answer)))
-data.IPE <- mutate(data.IPE, IPE = "NA")
-for (i in seq(from = 2, to = nrow(data.IPE), by = 2)) {
-  data.IPE$IPE[i] = abs((as.integer(data.IPE$correct_answer[i]) - as.integer(data.IPE[i-1, ]$response[[1]]$prediction[1])))
-  if (is.na(data.IPE$IPE[i])) {
-    data.IPE$IPE[i] = 437289472301
+data.filtered.IPE <- data.filtered.correct %>%
+  filter(task == "prediction") %>%
+  mutate(IPE = NA)
+
+for (i in 1:nrow(data.filtered.IPE)) {
+  data.filtered.IPE$IPE[i] = abs(data.filtered.IPE$correct_answer[i] - data.filtered.IPE$prediction_num[i])
+  if (is.na(data.filtered.IPE$IPE[i])) {
+    data.filtered.IPE$IPE[i] = 437289472301
   }
 }
 ```
@@ -301,19 +614,23 @@ for (i in seq(from = 2, to = nrow(data.IPE), by = 2)) {
 #| echo: false
 #| include: false
 
-data.IPE.filtered <- data.IPE %>%
-  filter(IPE != "NA") %>%
+data.filtered.IPE.simplified <- data.filtered.IPE %>%
+  filter(!is.na(IPE)) %>%
   select(c('trial_index', 'session_id', "IPE"))
 
-data.filtered.correct <- left_join(data.filtered.correct, data.IPE.filtered, by = c('session_id', 'trial_index'))
+data.filtered.correct <- left_join(data.filtered.correct, data.filtered.IPE.simplified, by = c('session_id', 'trial_index'))
+
+data.filtered.correct <- data.filtered.correct %>%
+  select(c('trial_index', 'session_id', "task", "trial_type", "stimulus_key", "curiosity_num", "prior_knowledge_num", "prediction_num", "correct_answer", "IPE", "trivia_difference", "fractal_correct"))
 ```
 
 ```{r}
 #| label: Exclude Subjects Who Got >20 Questions Correct in the Initial Round
+#| someone got all of them wrong therefore only 79 rows!
 #| message: false
 #| echo: false
 
-data.smart.subs <- data.IPE.filtered %>%
+data.smart.subs <- data.filtered.IPE.simplified %>%
   group_by(session_id) %>%
   count(IPE == 0) %>%
   filter(`IPE == 0` == "TRUE")
@@ -324,17 +641,10 @@ data.smart.subs <- data.IPE.filtered %>%
 #| message: false
 #| echo: false
 
-data.consistent.subs <- data.IPE %>%
+data.consistent.subs <- data.filtered.correct %>%
   filter(task == "prediction") %>%
-  mutate(response_num = NA)
-
-for (i in 1:nrow(data.consistent.subs)) {
-  data.consistent.subs$response_num[i] = format(as.numeric(data.consistent.subs[i, ]$response[[1]]$prediction[1]), scientific = FALSE)
-}
-
-data.consistent.subs.count <- data.consistent.subs %>%
   group_by(session_id) %>%
-  summarize(unique_predictions = n_distinct(response_num))
+  summarize(unique_predictions = n_distinct(prediction_num))
 ```
 
 ### Z-Scores
@@ -344,25 +654,13 @@ data.consistent.subs.count <- data.consistent.subs %>%
 #| message: false
 #| echo: false
 
-data.filtered.correct.IPE<- data.filtered.correct %>%
+z.scores.IPE <- data.filtered.correct %>%
   filter(task == "prediction") %>%
+  select(c(trial_index, session_id, stimulus_key, IPE)) %>%
   group_by(stimulus_key) %>%
-  mutate(IPE_num = NA) %>%
-  select(-c(IPE))
-
-for (i in 1:nrow(data.filtered.correct.IPE)) {
-  data.filtered.correct.IPE$IPE_num[i] = (as.numeric(data.filtered.correct.IPE$correct_answer[i]) - as.integer(data.filtered.correct.IPE[i, ]$response[[1]]$prediction[1]))
-}
-  
-data.filtered.correct.IPE <- data.filtered.correct.IPE %>%
-  drop_na(IPE_num) %>%
-  select(trial_index, session_id, stimulus_key, IPE_num)
-
-z.scores.IPE <- data.filtered.correct.IPE %>%
-  group_by(stimulus_key) %>%
-  mutate(IPE_mean = mean(IPE_num)) %>%
-  mutate(IPE_sd = sd(IPE_num)) %>%
-  mutate(z_score_IPE = (IPE_num - IPE_mean) / IPE_sd)
+  mutate(IPE_mean = mean(IPE)) %>%
+  mutate(IPE_sd = sd(IPE)) %>%
+  mutate(z_score_IPE = (IPE - IPE_mean) / IPE_sd)
 
 ggplot(z.scores.IPE, aes(x = session_id, y = z_score_IPE)) +
   geom_point(size = 0.5) +
@@ -374,20 +672,9 @@ ggplot(z.scores.IPE, aes(x = session_id, y = z_score_IPE)) +
 #| message: false
 #| echo: false
 
-data.filtered.correct.curiosity <- data.filtered.correct %>%
+z.scores.curiosity <- data.filtered.correct %>%
   filter(task == "likert") %>%
-  group_by(session_id) %>%
-  mutate(curiosity_num = NA)
-
-for (i in 1:nrow(data.filtered.correct.curiosity)) {
-  data.filtered.correct.curiosity$curiosity_num[i] = as.integer(data.filtered.correct.curiosity[i, ]$response[[1]]$curiosity[1])
-}
-  
-
-data.filtered.correct.curiosity <- data.filtered.correct.curiosity %>%
-  select(trial_index, session_id, stimulus_key, curiosity_num)
-
-z.scores.curiosity <- data.filtered.correct.curiosity %>%
+  select(trial_index, session_id, stimulus_key, curiosity_num) %>%
   group_by(session_id) %>%
   mutate(curiosity_mean = mean(curiosity_num)) %>%
   mutate(curiosity_sd = sd(curiosity_num)) %>%
@@ -401,98 +688,13 @@ ggplot(z.scores.curiosity, aes(x = stimulus_key, y = z_score_curiosity)) +
 ### Regressions
 
 ```{r}
-#| label: add stimulus key back for trivia questions
-#| echo: false
-#| include: false
-
-data.filtered.trivia <- data.filtered.correct %>%
-  filter(task == "trivia") %>%
-  select(-c('trial_type', 'accuracy', 'correct', 'time_elapsed', 'rt', 'correct_answer', 'IPE')) %>%
-  select(c('task', 'trial_index', 'session_id', 'stimulus_key', 'response', 'correct_response', 'difference'))
-
-for (i in 1:nrow(data.filtered.trivia)) {
-  if (data.filtered.trivia$correct_response[i] == "2007") {
-    data.filtered.trivia$stimulus_key[i] = "iPhone"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "28") {
-    data.filtered.trivia$stimulus_key[i] = "Indian classical dance"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "65") {
-    data.filtered.trivia$stimulus_key[i] = "Stephen King"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "7917.5") {
-    data.filtered.trivia$stimulus_key[i] = "diameter"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "6") {
-    data.filtered.trivia$stimulus_key[i] = "Vietnamese"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "1989") {
-    data.filtered.trivia$stimulus_key[i] = "Berlin Wall"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "5") {
-    data.filtered.trivia$stimulus_key[i] = "Muslims"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "54") {
-    data.filtered.trivia$stimulus_key[i] = "How many countries are in Africa?"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "108") {
-    data.filtered.trivia$stimulus_key[i] = "stitches"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "88") {
-    data.filtered.trivia$stimulus_key[i] = "constellations"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "1907") {
-    data.filtered.trivia$stimulus_key[i] = "Frida"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "13171") {
-    data.filtered.trivia$stimulus_key[i] = "Great Wall of China"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "300") {
-    data.filtered.trivia$stimulus_key[i] = "human baby"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "21") {
-    data.filtered.trivia$stimulus_key[i] = "How many countries in Africa have French as the official language?"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "1912") {
-    data.filtered.trivia$stimulus_key[i] = "titanic"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "73") {
-    data.filtered.trivia$stimulus_key[i] = "Catholic Bible"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "79") {
-    data.filtered.trivia$stimulus_key[i] = "vegan"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "1896") {
-    data.filtered.trivia$stimulus_key[i] = "Olympic"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "1901") {
-    data.filtered.trivia$stimulus_key[i] = "Nobel"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "163") {
-    data.filtered.trivia$stimulus_key[i] = "Burj Khalifa"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "19") {
-    data.filtered.trivia$stimulus_key[i] = "King Tut"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "8") {
-    data.filtered.trivia$stimulus_key[i] = "Arctic"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "12") {
-    data.filtered.trivia$stimulus_key[i] = "calendar"
-  }
-  else if (data.filtered.trivia$correct_response[i] == "11") {
-    data.filtered.trivia$stimulus_key[i] = "soccer"
-  }
-}
-```
-
-```{r}
 #| label: merge curiosity z score and IPE z score into trivia dataframe
 #| message: false
 #| echo: false
 
-data.filtered.trivia.simplified <- data.filtered.trivia %>%
-  select(c('session_id', 'stimulus_key', 'difference'))
+data.filtered.trivia.simplified <- data.filtered.correct %>%
+  filter(task == 'trivia') %>%
+  select(c('session_id', 'stimulus_key', 'trivia_difference'))
 
 z.scores.curiosity.simplified <- z.scores.curiosity %>%
   select(c('session_id', 'stimulus_key', 'z_score_curiosity'))
@@ -500,11 +702,11 @@ z.scores.curiosity.simplified <- z.scores.curiosity %>%
 z.scores.IPE.simplified <- z.scores.IPE %>%
   select(c('session_id', 'stimulus_key', 'z_score_IPE'))
 
-data.filtered.trivia.merged <- left_join(drop_na(data.filtered.trivia.simplified), z.scores.curiosity.simplified, by = c('session_id', 'stimulus_key'))
+data.filtered.regression.merged <- left_join(drop_na(data.filtered.trivia.simplified), z.scores.curiosity.simplified, by = c('session_id', 'stimulus_key'))
 
-data.filtered.trivia.merged <- left_join(data.filtered.trivia.merged, z.scores.IPE.simplified, by = c('session_id', 'stimulus_key'))
+data.filtered.regression.merged <- left_join(data.filtered.regression.merged, z.scores.IPE.simplified, by = c('session_id', 'stimulus_key'))
 
-#| data.filtered.trivia.merged <- drop_na(data.filtered.trivia.merged)
+data.filtered.regression.merged <- drop_na(na.omit(data.filtered.regression.merged))
 ```
 
 ```{r}
@@ -512,7 +714,18 @@ data.filtered.trivia.merged <- left_join(data.filtered.trivia.merged, z.scores.I
 #| message: false
 #| echo: false
 
-explicit.memory.regression <- lm(data.filtered.trivia.merged$difference ~ data.filtered.trivia.merged$z_score_curiosity + data.filtered.trivia.merged$z_score_IPE + (data.filtered.trivia.merged$z_score_curiosity * data.filtered.trivia.merged$z_score_IPE))
+explicit.memory.regression <- lm(data.filtered.regression.merged$trivia_difference ~ data.filtered.regression.merged$z_score_curiosity + data.filtered.regression.merged$z_score_IPE + (data.filtered.regression.merged$z_score_curiosity * data.filtered.regression.merged$z_score_IPE))
+```
+
+```{r}
+#| label: get fractal image number for each fractal trial across all subjects
+#| echo: false
+#| include: false
+
+data.filtered.fractals <- filter(data.filtered.correct, task == "fractal_response" & !is.na(fractal_correct)) %>%
+  select(c('trial_index', 'session_id', 'fractal_correct'))
+
+data.filtered.fractals
 ```
 
 ```{r}
