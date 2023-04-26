@@ -51,7 +51,21 @@ All stimuli, experiment scripts, data, and analysis scripts are available on the
 
 ### Participants
 
+Participants were 40 individuals from the United States (X female, X male) between X and X years of age (M = X, SD = X) recruited via Prolific, a platform that enables researchers to carry out fast, reliable, and high-quality online data collection with a diverse sample. To rationalize this sample size of 40, we determined that our study would take approximately 20 minutes to complete and we had \$160 in our budget. Thus, each participant received \$4 upon completion of the experiment, regardless of their performance on the tasks.
+
 ### Procedure
+
+Participants were instructed to complete this experiment on a laptop or computer, and upon clicking the link in Prolific, they were given some preliminary instructions: here is a trivia question, 1) predict the answer, 2) rate how much you already know about the topic, 3) rate how much you want to know the answer, and then the card will flip over to reveal the correct answer. Participants then had the opportunity to complete one practice round to confirm that they understood the instructions. In the practice round, and in the ensuing 30 experimental rounds, participants were presented with a trivia question such as, "How many double stitches does a baseball have?" and asked to type in a (numerical) prediction of the answer. After responding, on the next screen they were asked, "How much do you know about this topic?" and asked to rate their knowledge on a Likert scale of 0 (Nothing at all) to 5 (LIKE, A LOT). On the following screen, they were asked, "How much do you want to know the answer to this question?" and asked to rate their curiosity on a Likert scale of 0 (I don't care) to 5 (TELL ME!). If the participant failed to type in an answer (for the prediction question) or click a rating (for the knowledge or curiosity question), they were unable to continue to the next round. This ensured that participants could not simply click continue through the entire experiment without making any predictions or ratings. After these three questions were complete, a card with a colorful, fractal pattern appeared and after 5000 ms, it automatically turned over to reveal the correct answer. This ensured that every participant viewed the colorful, fractal pattern for the same amount of time (eliminating a viewing-time confound for the later memory test). Then, the trial ended and the participant could press any key to continue to the next trial (Figure 1). 
+
+![](method-figures/method-figure-1.png){fig-align="center"}
+
+After the 30 trials were complete, participants were met with another (surprise!) instruction screen. For the next 10 trials, participants were presented with two colorful, fractal patterns and asked to select which of the two they had seen previously. During this incidental memory test, they clicked 'f' to select that they had seen the left image or 'j' to select that they had seen the right image. Following each selection, they were presented with immediate feedback: Correct! or Wrong answer (Figure 2). 
+
+![](method-figures/method-figure-2.png){fig-align="center"}
+
+Following the 10 incidental memory trials, participants were met with another (surprise!) instruction screen (last one, I promise). For the next 10 trials, participants were presented with a trivia question that they were previously asked, but that they had guessed incorrectly on. They typed in their prediction as in the first round, and they immediately received the correct answer and feedback about how close their guess was. For example, if the participant guessed 43 for the question, "How many single hand gestures, or mudras, are used in Indian classical dance?," they would be presented with a screen indicating that the correct answer is 28, the difference between their answer and the correct one (their prediction error) is 15, and an unsolicited comment about their performance: "Not even close... do better next time!" (Figure 3). After these 10 rounds were complete, participants were thanked for their engagement and sent back to the Prolific page to receive their \$4. 
+
+![](method-figures/method-figure-3.png){fig-align="center"}
 
 ## Results
 
@@ -636,7 +650,11 @@ data.consistent.subs <- data.filtered.correct %>%
   summarize(unique_predictions = n_distinct(prediction_num))
 ```
 
+Out of the 40 participants from Prolific, one participant got all 30 questions wrong in the first part of the experiment and was excluded from data analysis. No participant correctly predicted over 20 questions in the first part of the experiment and no participant showed invariable responses to the predicting and scaling part of the experiment. Therefore, the rest of the 39 participants were included in the following data analysis. The explicit memory was evaluated by how well the participants were in remembering the correct answers to the questions they had already encountered before in the last 10 trials. Namely, the differences between the answers entered by participants and the correct answers to the questions were calculated, where the bigger the difference the farther they were from the correct answer and 0 meant the participants entered a correct answer. The incidental memory was evaluated by how well the participants recognized the fractal patterns they had seen with the presence of another pattern they had not seen before in the first 30 trials of the experiment. If the participant chose the pattern they had seen before, their response was given a TRUE value, and False otherwise. The boolean value was then encoded into 1 and 0 respectively.
+
 ### Z-Scores
+
+To investigate the effect of prediction error on both explicit memory and incidental memory, the prediction error (information prediction error) of each participant on each question in the first 30 trials was calculated by subtracting the prediction they entered when a question was shown from the correct answer to that question. Since only the size of the error is essential, absolute values of the subtractions were taken. There was one participant whose prediction on a particular question was unreasonably large, which made the subtraction of it from the correct answer uncomputable in R. Therefore, the prediction error was manually calculated to be 437289472301 and was filled into the data. Due to the inconsistency in the number of figures in the answers to those trivia questions, standardization on the prediction errors was performed by calculating the z-scores of each participant's prediction error on each question, compared to other participants. For each trivia question, each participant's prediction error on the question was calculated by the difference between their prediction error and the mean prediction error of all participants on that question divided by the standard deviation of prediction error across participants. The distributions of all participants' z-scores for prediction errors for each question were plotted in Figure 1., with the x-axis being 39 distinct participants and the y-axis being their information prediction error z-scores.
 
 ```{r}
 #| label: Prediction Error Z-Scores (each participant AND each question)
@@ -654,10 +672,18 @@ z.scores.IPE <- data.filtered.correct %>%
   mutate(z_score_IPE = (IPE - IPE_mean) / IPE_sd)
 
 ggplot(z.scores.IPE, aes(x = session_id, y = z_score_IPE)) +
+  ggtitle("Distributions of prediction errors across participants for each question") +
+  theme(plot.title = element_text(hjust = 0.5)) + 
   geom_point(size = 0.5) +
   facet_wrap(~ stimulus_key) + 
-  labs(caption = "")
+  labs(caption = "Figure 1. The distributions of all participants' z-scores of information prediction error (IPE) for each question. 
+          For each plot, the x-axis shows the session_id  of each participant and the y-axis shows the z-scores of information
+        prediction error (IPE) of each participant on that question. The z-scores range from -2 to 6. The more closely
+          the dots are to each other, the less variations in prediction error there was for all participants on that question.") +
+  theme(plot.caption = element_text(hjust = 0.5))
 ```
+
+Similarly, the differences between the answers entered by participants and the correct answers in the last 10 trials of the experiment were standardized, and the distributions of all participants' z-scores for their errors in each of the 10 questions were plotted in Figure 2., with the x-axis being 39 distinct participants and the y-axis being their trivia z-scores. However, since the 10 trivia questions were randomly generated for each participant, only 24 questions were tested across all participants.
 
 ```{r}
 #| label: 10 trivia questions Z-Scores (each participant AND each question)
@@ -674,10 +700,20 @@ z.scores.trivia <- data.filtered.correct %>%
   mutate(z_score_trivia = (trivia_difference - trivia_difference_mean) / trivia_difference_sd)
 
 ggplot(z.scores.trivia, aes(x = session_id, y = z_score_trivia)) +
+  ggtitle("Distribution of errors in trivia tests across participants for each question") +
+  theme(plot.title = element_text(hjust = 0.5)) + 
   geom_point(size = 0.5) +
   facet_wrap(~ stimulus_key) + 
-  labs(caption = "")
+  labs(caption = "Figure 2. The distributions of all participants' z-scores of thier errors in remembering the correct answer for each question. 
+          For each plot, the x-axis shows the session_id  of each participant and the y-axis shows the z-scores of each participant on that question. 
+          The z-scores range from -1 to 3. The more closely the dots are to each other, the less variations in prediction error there was for all 
+       participants on that question. Since questions were randomly selected for each participant, not all 30 questions were tested.
+       If nothing is being plotted, it indicates that there was no variations between all participants' errors in remembering the correct 
+       answer for that question, meaning that all participants got it correct. ") +
+  theme(plot.caption = element_text(hjust = 0.5))
 ```
+
+To investigate the effect of the level of curiosity on both explicit memory and incidental memory, the scales of curiosity reported by participants during their first encounter with the questions were retrieved. On a scale from 0 to 5, 0 indicated being not curious at all and 5 indicated being extremely curious about the answer to the question. The level of curiosity was standardized by calculating the z-scores for each participant across questions. For each participant, each trivia question's corresponding curiosity z-score was calculated by the difference between the curiosity scale and the mean curiosity scale of the participant across questions divided by the standard deviation of curiosity scales across questions for that participant. The distributions of each participant's z-scores of curiosity levels across questions were plotted in Figure 3., with the x-axis being the questions and the y-axis being the z-scores of the participant's curiosity level.
 
 ```{r}
 #| label: Curiosity Z-Scores (each participant)
@@ -695,9 +731,17 @@ z.scores.curiosity <- data.filtered.correct %>%
   mutate(z_score_curiosity = (curiosity_num - curiosity_mean) / curiosity_sd)
 
 ggplot(z.scores.curiosity, aes(x = stimulus_key, y = z_score_curiosity)) +
+  ggtitle("Distribution of curiosity level across questions for each participant") +
+  theme(plot.title = element_text(hjust = 0.5)) + 
   geom_point(size = 0.5) +
   facet_wrap(~ session_id) + 
-  labs(caption = "")
+  labs(caption = "Figure 3. The distributions of all participants' z-scores of thier curiosity scales across all 30 questions. 
+          For each plot, the x-axis shows the stimulus key of each question and the y-axis shows the z-scores of the participant's curiosity level
+          on that question. The z-scores range from -5 to 2.5. The more closely the dots are to each other, the less variations in prediction error
+          there was for all questions for the participant.
+       If nothing is plotted, it indicates that the participant was consistently curious across all questions, meaning that they put the same number
+       on the scale as their curiosity level for each trivia.") +
+  theme(plot.caption = element_text(hjust = 0.5))
 ```
 
 ### Regressions
@@ -723,6 +767,8 @@ data.filtered.regression.merged <- left_join(data.filtered.regression.merged, z.
 data.filtered.regression.merged <- drop_na(na.omit(data.filtered.regression.merged))
 ```
 
+Two regressions were conducted, one on explicit memory and one on implicit memory. For explicit memory, the regression aims to examine the relationship between the dependent variable "z_score_trivia", which represents how well the participants remembered the correct answers to the questions they've seen before, and three independent variables "z_score_curiosity", "z_score_IPE", and the interaction between the two independent variables. As shown, for a one-unit increase in "z_score_curiosity", there is an expected increase of 0.08027 units in "z_score_trivia". Similarly, for a one-unit increase in "z_score_IPE", there is an expected increase of 0.11516 units in "z_score_trivia". The coefficient for the interaction term between "z_score_curiosity" and "z_score_IPE" suggests that the relationship between "z_score_curiosity" and "z_score_trivia" is moderated by "z_score_IPE". Specifically, for a one-unit increase in both "z_score_curiosity" and "z_score_IPE", there is an expected increase of 0.06131 units in "z_score_trivia" above and beyond the effects of each variable individually. The independent variable "z_score_IPE" is significant at the 0.05 level (p-value = 0.0497), while the other two independent variables, "z_score_curiosity" and the interaction term, are not significant at conventional levels (p-value \> 0.1). In other words, the model as a whole does not provide a good fit to the data, and both prediction errors and curiosity levels are not sufficient to explain much of the variability in the performance of explicit memory.
+
 ```{r}
 #| label: Explicit Memory Regression
 #| message: false
@@ -730,6 +776,15 @@ data.filtered.regression.merged <- drop_na(na.omit(data.filtered.regression.merg
 
 explicit.memory.regression <- lm(data.filtered.regression.merged$z_score_trivia ~ data.filtered.regression.merged$z_score_curiosity + data.filtered.regression.merged$z_score_IPE + (data.filtered.regression.merged$z_score_curiosity * data.filtered.regression.merged$z_score_IPE))
 ```
+
+```{r}
+#| label: present explicit memory regression results
+#| echo: false
+
+explicit.memory.regression 
+```
+
+The distribution of z-scores for the errors in the last 10 trivia questions against the z-scores of IPE was plotted in Figure 4. with a best-fit line.
 
 ```{r}
 #| label: Explicit Memory Regression Plot
@@ -741,7 +796,7 @@ ggplot(data.filtered.regression.merged, aes(x = z_score_IPE, y = z_score_trivia)
   geom_smooth() + 
   ggtitle("The effects of prediction error on explicit memory") + 
   theme(plot.title = element_text(hjust = 0.5)) + 
-  labs(caption = "")
+  labs(caption = "Figure 4.")
 ```
 
 ```{r}
@@ -778,7 +833,28 @@ data.filtered.implicit.merged$fractal_correct = as.numeric(data.filtered.implici
 implicit.memory.regression <- lm(data.filtered.implicit.merged$fractal_correct ~ data.filtered.implicit.merged$z_score_curiosity + data.filtered.implicit.merged$z_score_IPE + (data.filtered.implicit.merged$z_score_curiosity * data.filtered.implicit.merged$z_score_IPE))
 ```
 
+For Implicit memory, the regression aims to examine the relationship between the dependent variable "fractal_correct", which represents whether the participant recognized the fractal pattern they have seen before, and three independent variables "z_score_curiosity", "z_score_IPE", and the interaction between the two independent variables. None of the three independent variables, or their interaction, have a statistically significant relationship with the dependent variable fractal_correct, as indicated by their p-values being greater than 0.05. Therefore, there is no evidence of a significant linear relationship between either the prediction error or the curiosity level and the performance of implicit memory in this model.
+
+```{r}
+#| label: present implicit memory regression results
+#| echo: false
+
+implicit.memory.regression
+```
+
 ## Discussion
+
+This study aimed to investigate the effects of prediction error as well as the effects of curiosity on memory performance, both explicitly and implicitly. However, the study failed to provide support for both hypotheses. The regressions failed to provide a model to explain the variability in the performance of explicit memory and implicit memory based on the two independent variables provided. With a p-value of 0.0497, the significant effect found between prediction errors and explicit memory performance was almost insignificant at the 0.05 level, and the model as a whole was insignificant at the 0.05 level for both regressions.
+
+Since significant previous research suggests that curiosity affects explicit memory of a stimulus (Wittmann et al., 2005; Kang et al., 2009; Gruber et al., 2014; Fernández et al., 2016), there are a few potential explanations for why this study did not find this effect. To start, in the second (surprise!) round of trivia questions (our operationalization of explicit memory), participants received a random selection of the thirty questions they had already seen, but these were not restricted to questions that they had initially provided incorrect guesses for. This reduced the number of questions that each participant had the opportunity to remember (perhaps because they were initially very curious about the topic). A question that a participant guessed correctly on in the initial testing round, and then remembered again in the second round is not valuable in measuring memory recall; participants are most likely using prior knowledge of the correct answer instead. Notably, this unintentional experimental design flaw likely impacted the analysis of the effect of prediction error on explicit memory as well. We are not exempt from that examination simply because that result was statistically significant. 
+
+Additionally, while we deliberately sought out trivia questions that 1) had numerical responses, 2) varied in the number of digits in the response and in relative difficulty, 3) pertained to a broad number of categories, including: science/technology, art/entertainment, literature, nature/animals, culture, history, religion, geography, food, and sports, and 4) were representative of the diverse backgrounds and cultures of people in the United States potentially participating in the experiment, we failed to consider that there were three pairs of questions with the same numerical responses. For example, the answers to "How many native species of kangaroos are found in Australia?" and "How many main islands make up Japan?" were both 4, and, thus, when we attempted to match participants' numerical responses to the second round of trivia questions to their initial curiosities about that question, we were unable to do so for the six questions with duplicate responses. Also, we did not get z-scores for the following three questions because every participant who received these in their second round of questioning got them correct and thus the standard deviations were zero: "How many bones is a human baby born with?" (300 because I know you're curious!), "What year did the Berlin Wall fall?" (1989; maybe you knew that one), and "What year did the Titanic sink?" (1912; maybe you knew that one too). Interestingly, the standard deviations for these questions were not zero in the initial testing round, indicating that they were certainly not 'giveaway' questions. While we cannot be sure as to why this may have occurred, we predict that for the Berlin Wall and Titanic questions, participants who initially got it wrong were somewhat close to the correct answer (maybe something of a tip-of-the-brain experience), and, thus, when presented with the opportunity to guess again, got it correct. This is unfortunate, but possible (even likely!) when analyzing a phenomenon like memory that is affected by a lot more than just curiosity. However, we do not think this is the case for Baby Bones, and it is even possible that all of these people were initially really curious about this question, later got it correct, and then, much later, we realized that the lack of standard deviation meant that we did not get a z-score for a question that might have been really valuable in our analysis of explicit memory, both for curiosity and prediction error.  
+
+In terms of our methodological choices for curiosity, we assessed participants' curiosity using a Likert Scale presented immediately after one assessing prior knowledge. After a participant selected a number for prior knowledge, the next screen, measuring curiosity, automatically began with the same number selected. This could have resulted in a situation where a participant who wanted to save time was inclined to keep the same selection for curiosity, even if it was actually different from their prior knowledge estimation. And, even if they were not in a damn rush to get their \$4, making a selection after a choice has been already made is very different from making a clean selection. It feels like 'changing your answer,' even though this is curiosity, not your sixth grade social studies test. These are some of the possible reasons why we did not find an (expected) effect of curiosity on explicit memory, and a (less expected, but still possible) effect of prediction error on explicit memory. 
+
+Finally, previous research that found an effect of curiosity on incidental memory (Gruber et al., 2014), used faces as their incidental stimuli, while we used colorful fractal images. We believed that faces were too obvious as an incidental stimulus, and that using a colorful, flippable card on a bright blue background would be less obvious (but not totally ignorable: more like medium-obvious, of course). It is impossible to obtain a perfectly 'incidental' stimulus, and, thus, it is impossible to determine whether the lack of a significant effect of curiosity or prediction error on incidental memory in this study was due to the choice of stimulus, other timing, background, or participant confounds, or because curiosity does not, in fact, affect incidental memory. 
+
+In addition to the above considerations, there are a number of future research studies that can be conducted to further investigate the possible effects of prediction error and curiosity on memory. A research team with more funding and the ability to carry out in-person research could easily improve the power of this study by utilizing a larger sample size, generating an experiment with many more questions in all three sections, and re-recruiting participants a few days (rather than ten minutes) later for the memory assessment. As always, an independent, unbiased replication of this study is also extremely valuable in determining the validity of our findings. Finally, multiple types of incidental memory stimuli must be considered to determine which, if any, are affected by curiosity. We cannot declare that curiosity affects incidental memory if this is only the case for faces, or another very particular type of stimulus. Ultimately, this kind of exploration has the capacity to expand our understanding of how prediction error, curiosity, and memory fit into broader research about human information processing and decision making.
 
 ## References
 
