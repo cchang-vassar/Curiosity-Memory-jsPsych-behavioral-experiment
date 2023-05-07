@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Effects of Initial Curiosity and Prediction Error on Explicit and Incidental Memory Formation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="curiosity-writeup_files/libs/clipboard/clipboard.min.js"></script>
+<script src="curiosity-writeup_files/libs/quarto-html/quarto.js"></script>
+<script src="curiosity-writeup_files/libs/quarto-html/popper.min.js"></script>
+<script src="curiosity-writeup_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="curiosity-writeup_files/libs/quarto-html/anchor.min.js"></script>
+<link href="curiosity-writeup_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="curiosity-writeup_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="curiosity-writeup_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="curiosity-writeup_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="curiosity-writeup_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Effects of Initial Curiosity and Prediction Error on Explicit and Incidental Memory Formation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Cherrie Chang, Amaavi Miriyagalla, Jasmine Shao </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The present study explores the connection between curiosity and memory, where recent evidence suggests that higher levels of curiosity leads to improved memory of that information <span class="citation" data-cites="kang2009 gruber2014 vanlieshout2020">(<a href="#ref-kang2009" role="doc-biblioref">Kang et al. 2009</a>; <a href="#ref-gruber2014" role="doc-biblioref">Gruber, Gelman, and Ranganath 2014</a>; <a href="#ref-vanlieshout2020" role="doc-biblioref">Lieshout, Lange, and Cools 2020</a>)</span>. This supports the intuition that the more curious a person is about something, the better they are at learning and remembering it. When applied to an educational setting, this means instructors may find that embedding highly specific, hard-to-remember information in a context where students are curious may lead to better overall retention of the material.&nbsp;</p>
+<p>In behavioral experiments testing the correlation between curiosity and memory, participants are typically shown a series of trivia questions and their answers, then tasked to recall the answers to the questions after a period of time. Evidence from an example of these studies by <span class="citation" data-cites="kang2009">(<a href="#ref-kang2009" role="doc-biblioref">Kang et al. 2009</a>)</span> found that participants were better able to recall answers to questions that they were highly curious about, even after a 11-16 day period. These behavioral results are also supported by neuroscientific evidence: Gruber et al. <span class="citation" data-cites="gruber2014">(<a href="#ref-gruber2014" role="doc-biblioref">Gruber, Gelman, and Ranganath 2014</a>)</span> conducted an fMRI study showing that when there is increased brain activity in areas related to curiosity, there is also increased anticipatory activity in areas relating to memory. While the present study does not build on this neuroimaging work, it provides powerful supporting evidence for theories that seek to connect curiosity and memory at the neurological level. Additionally, Gruber et al. <span class="citation" data-cites="gruber2014">(<a href="#ref-gruber2014" role="doc-biblioref">Gruber, Gelman, and Ranganath 2014</a>)</span> found that improved memory due to high levels of curiosity not only applies to material being activity learned, such as answers to trivia questions shown, but also to any material incidentally encountered during the learning process. In their case, these were faces that appeared between the trivia questions and answers, and participants were asked to recognize them upon completion of the experiment.&nbsp;</p>
+<p>After considering these different studies about curiosity and memory, there are some interesting comparisons that we can make: Gruber et al., <span class="citation" data-cites="gruber2014">(<a href="#ref-gruber2014" role="doc-biblioref">Gruber, Gelman, and Ranganath 2014</a>)</span>‘s study only tested for immediate memory retention, as opposed to the longer time periods utilized by Kang et al. <span class="citation" data-cites="kang2009">(<a href="#ref-kang2009" role="doc-biblioref">Kang et al. 2009</a>)</span>, and Gruber et al., <span class="citation" data-cites="gruber2014">(<a href="#ref-gruber2014" role="doc-biblioref">Gruber, Gelman, and Ranganath 2014</a>)</span>’s incidental stimuli were restricted to faces. Additionally, the two groups interpreted their neuroscientific data differently: Gruber et al. <span class="citation" data-cites="gruber2014">(<a href="#ref-gruber2014" role="doc-biblioref">Gruber, Gelman, and Ranganath 2014</a>)</span>’s team attributed midbrain and nucleus accumbens activation to the anticipation of an answer and curiosity, while Kang et al. <span class="citation" data-cites="kang2009">(<a href="#ref-kang2009" role="doc-biblioref">Kang et al. 2009</a>)</span>’s team observed that the same activations were heightened for incorrect answers, thus tying them to prediction errors (the difference between a participant’s prediction and the correct answer). The prediction error account is further developed in a report by Marvin et al. <span class="citation" data-cites="marvin2016">(<a href="#ref-marvin2016" role="doc-biblioref">Marvin and Shohamy 2016</a>)</span>, which hypothesized that information prediction error is the essential factor by which curiosity drives memory formation. This would indicate that people remember information better if it was initially associated with a larger prediction error (they got it very wrong to start and then were like ’woah!’). This ‘woah’ might derive from the connection between information prediction error and surprise: when people are confronted with unexpected events, they experience surprise <span class="citation" data-cites="sumiya2020">(<a href="#ref-sumiya2020" role="doc-biblioref">Sumiya and Katahira 2020</a>)</span>. Synthesizing across these studies, the mechanism by which curiosity affects memory formation remains unclear: is it initial curiosity about the answer itself, or the large prediction error generated by an incorrect guess that ultimately drives improved memory formation?&nbsp;</p>
+<p>The present study seeks to clarify and challenge these existing findings by 1) testing whether the positive correlation between curiosity and memory can be replicated, and 2) isolating the most relevant factor by which curiosity motivates memory formation for both explicit and incidentally presented material. We hypothesize that the most relevant factor could either be the subject’s initial curiosity about the topic, or a more downstream prediction error (and associated surprise). We also introduce the subject’s prior knowledge as a possible third, underlying factor explaining the connections of both initial curiosity and prediction error to memory. High prior knowledge about a topic might actually decrease curiosity and prediction error, and thus, be implicated in an interesting way with their memory of it later on. Finally, we chose to employ a different incidental memory stimulus than Gruber et al. <span class="citation" data-cites="gruber2014">(<a href="#ref-gruber2014" role="doc-biblioref">Gruber, Gelman, and Ranganath 2014</a>)</span>, as we were skeptical about how inconspicuous a human face could be when presented in between a trivia question and its answer. Thus, our design chose to use colorful patterns with no apparent meaning or subject instead, acting as the back of a playing card flipped to reveal a trivia answer.</p>
+<div id="fig-scheme" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/diagram-dark_1@4x.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: A rough scheme of the hypothesized relationships between curiosity, IPE, prior knowledge and memory.</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="hypothesis" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesis">Hypothesis</h2>
+<p><strong>Hypothesis 1</strong>: Higher initial curiosity leads to better memory of the answer to a trivia question (explicit memory) and a colorful pattern on the back of the trivia card (incidental memory).</p>
+<p><strong>Hypothesis 2</strong>: A larger prediction error after guessing the answer to a trivia question leads to better memory of the answer to a trivia question (explicit memory) and a colorful pattern on the back of the trivia card (incidental memory).&nbsp;</p>
+<p><strong>Hypothesis 3</strong> (exploratory): Prior knowledge may underlie these factors, such that high prior knowledge correlates to lower curiosity and prediction error, and thus leads to poorer memory of the answer to a trivia question (explicit memory) and a colorful pattern on the back of the trivia card (incidental memory).</p>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="pre-registration-open-materials" class="level3">
+<h3 class="anchored" data-anchor-id="pre-registration-open-materials">Pre-Registration &amp; Open Materials</h3>
+<p>All stimuli, experiment scripts, data, and analysis scripts are available on the Open Science Framework at <a href="https://osf.io/v35df/" class="uri">https://osf.io/v35df/</a>. The pre-registration for this study is also available at <a href="https://osf.io/w3qh4" class="uri">https://osf.io/w3qh4</a>. This study was approved by the Vassar College Institutional Review Board, and all participants provided informed consent prior to their participation.</p>
+</section>
+<section id="participants" class="level3">
+<h3 class="anchored" data-anchor-id="participants">Participants</h3>
+<p>Participants were 40 individuals from the United States (X female, X male) between X and X years of age (M = X, SD = X) recruited via Prolific, a platform that enables researchers to carry out fast, reliable, and high-quality online data collection with a diverse sample. To rationalize this sample size of 40, we determined that our study would take approximately 20 minutes to complete and we had $160 in our budget. Thus, having a sample size of 40 allowed each participant to receive an acceptable pay of $4 upon completion of the experiment, regardless of their performance on the tasks.</p>
+</section>
+<section id="stimuli" class="level3">
+<h3 class="anchored" data-anchor-id="stimuli">Stimuli</h3>
+<p>In order to conduct this experiment, we needed to generate 30 trivia questions with numerical answers to explore explicit memory, and 40 colorful abstract patterns to study incidental memory. In order to generate the trivia questions, we used ChatGPT to output ten broad categories of trivia, and we got: science/technology, art/entertainment, literature, nature/animals, culture, history, religion, geography, food, and sports. We then instructed ChatGPT to generate trivia questions with strictly numerical answers based on each of these categories, and selected three questions for each. All question-answer pairs were face-checked. We made an effort to maximize the diversity in difficulty, length of answer and cultural origin for our final set of questions. These 30 questions were randomly ordered and presented to participants during the experiment.&nbsp;</p>
+<p>In order to generate the colorful patterns, we downloaded a set of 101 colorful abstract patterns from a paper made open source by the researchers <span class="citation" data-cites="schapiro2012">(<a href="#ref-schapiro2012" role="doc-biblioref">Schapiro, Kustner, and Turk-Browne 2012</a>)</span>. We then used DALL-E from Open AI to blow up all the images to the same size by repeating the patterns within them. 30 out of the 40 would appear on the cards presenting each trivia answer as target patterns, and the remaining 10 were used as distractor patterns in the implicit memory test rounds, where participants have to correctly choose the pattern they had seen earlier during the trivia trials.&nbsp;</p>
+</section>
+<section id="procedure" class="level3">
+<h3 class="anchored" data-anchor-id="procedure">Procedure</h3>
+<p>Participants were instructed to complete this experiment on a laptop or computer, and upon clicking the link in Prolific, they were given some preliminary instructions: here is a trivia question, 1) predict the answer, 2) rate how much you already know about the topic, 3) rate how much you want to know the answer; and then a card will flip over to reveal the correct answer. Participants then had the opportunity to complete one practice round to confirm that they understood the instructions. In the practice round, and in the ensuing 30 experimental rounds, participants were presented with a trivia question such as, “How many double stitches does a baseball have?” and asked to type in a (numerical) prediction of the answer. After responding, on the next screen they were asked, “How much do you know about this topic?” and asked to rate their knowledge on a Likert scale of 0 (Nothing at all) to 5 (LIKE, A LOT). On the following screen, they were asked, “How much do you want to know the answer to this question?” and asked to rate their curiosity on a Likert scale of 0 (I don’t care) to 5 (TELL ME!). If the participant failed to type in an answer (for the prediction question) or click a rating (for the knowledge or curiosity question), they were unable to continue to the next round. This ensured that participants could not simply click continue through the entire experiment without making any predictions or ratings.</p>
+<p>After these three questions were complete, a card with a random, colorful abstract pattern appeared. After 2000 ms, it automatically turned over to reveal the correct answer. This ensured that every participant viewed each pattern for the same amount of time (eliminating a viewing-time confound for the later memory test). The trial then ended and the participant could press any key to continue to the next trial:</p>
+<div id="fig-trial-flow" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/Screen%20Shot%202023-05-05%20at%204.36.47%20PM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Illustration of initial experimental trial structure. For thirty trials, participants predict the answer to a trivia question, rate how much they know about the topic on a scale of 0-5, and rate how much they want to know the answer to this question on a scale of 0-5. Then, a card appears with a colorful pattern and flips over (after 2000 ms) to reveal the correct answer. Finally, the participant clicks any key to continue to the next trial. A bright blue background was utilized throughout the experiment instead of a more neutral color to make sure the colorful fractal images wouldn’t stand out so much that they would be too memorable for our participants!</figcaption><p></p>
+</figure>
+</div>
+<p>After the 30 trials were complete, participants were met with another (surprise!) instruction screen. For the next 10 trials, participants were presented with two colorful, fractal patterns and asked to select which of the two they had seen previously. During this incidental memory test, they clicked ‘f’ to select that they had seen the left image or ‘j’ to select that they had seen the right image. Following each selection, they were presented with immediate feedback: Correct! or Wrong answer, as seen in <a href="#fig-fractal-flow">Figure&nbsp;3</a>.&nbsp;</p>
+<div id="fig-fractal-flow" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/Screen%20Shot%202023-05-05%20at%204.40.08%20PM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: Illustration of surprise incidental memory test. For ten trials, participants press ‘f’ to indicate that they saw the left image previously and press ‘j’ to indicate that they saw the right image previously. Immediately following the selection, they receive feedback about the accuracy of their selection: Correct! or Wrong answer.</figcaption><p></p>
+</figure>
+</div>
+<p>Following the 10 incidental memory trials, participants were met with another (surprise!) instruction screen (last one, I promise). For the next 10 trials, participants were presented with a trivia question that they were previously asked, but that they had guessed incorrectly on. They typed in their prediction as in the first round, and they immediately received the correct answer and feedback about how close their guess was. For example, if the participant guessed 43 for the question, “How many single hand gestures, or mudras, are used in Indian classical dance?,” they would be presented with a screen indicating that the correct answer is 28, the difference between their answer and the correct one (their prediction error) is 15, and an unsolicited comment about their performance: “Not even close… do better next time!”, as seen in <a href="#fig-trivia-recall">Figure&nbsp;4</a>. After these 10 rounds were complete, participants were thanked for their engagement and sent back to the Prolific page to receive their $4 pay.&nbsp;</p>
+<div id="fig-trivia-recall" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/Screen%20Shot%202023-05-05%20at%204.41.12%20PM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;4: Illustration of trials in the surprise explicit memory test. Participants are shown 10 trivia questions that they have seen previously and told to input their answers again. After they have submitted their answers, the correct answer is shown and a feedback message is printed to tell them how far they were from the correct answer.</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<div class="cell">
+
+</div>
+<div class="cell" data-label="merge back to data.filtered.correct">
+
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<p>Out of the 40 participants from Prolific, no participant correctly predicted over 20 questions in the first part of the experiment and no participant showed invariable responses to the predicting and likert-scaling (curiosity and prior knowledge) part of the experiment. Therefore, all 40 participants were included in the following data analysis.</p>
+<p>Explicit memory formation was evaluated by how well each participant remembered the correct answer to the questions they had already encountered before in the last 10 trials. Namely, the differences between the answers entered by participants and the correct answers to the questions were calculated, where the bigger the difference the farther they were from the correct answer and 0 meant the participants entered a correct answer. The incidental memory was evaluated by how well the participants recognized the fractal patterns they had seen with the presence of another pattern they had not seen before in the first 30 trials of the experiment. If the participant chose the pattern they had seen before, their response was given a TRUE value, and FALSE otherwise. The boolean value was then encoded into 1 and 0 respectively.</p>
+<p>Prior to performing data analysis, we recognized that we needed to perform some standardizations for our independent and dependent variables in order to ensure that our comparisons were valid. Specifically, we standardized the prediction error, curiosity, prior knowledge, and explicit memory responses using z-scores and the implicit memory responses by coding a correct pattern recognition as 1 and an incorrect pattern recognition as 0. The z-scores and subsequent explicit and implicit memory regressions follow.</p>
+<section id="z-scores" class="level3">
+<h3 class="anchored" data-anchor-id="z-scores">Z-Scores</h3>
+<section id="prediction-error" class="level4">
+<h4 class="anchored" data-anchor-id="prediction-error">Prediction Error</h4>
+<p>To investigate the effect of prediction error on both explicit memory and incidental memory, the prediction error (information prediction error) of each participant on each question in the first 30 trials was calculated by subtracting the prediction they entered when a question was shown from the correct answer to that question. Since only the size of the error is essential, absolute values of the subtractions were taken. There was one participant whose prediction on a particular question was unreasonably large, which made the subtraction of it from the correct answer uncomputable in R. Therefore, the prediction error was manually calculated to be 437289472301 and was filled into the data. Due to the inconsistency in the number of figures in the answers to those trivia questions, standardization on the prediction errors was performed by calculating the z-scores of each participant’s prediction error on each question, compared to other participants. For each trivia question, each participant’s prediction error on the question was calculated by the difference between their prediction error and the mean prediction error of all participants on that question divided by the standard deviation of prediction error across participants. The distributions of all participants’ z-scores for prediction errors for each question were plotted in Figure 1., with the x-axis being 39 distinct participants and the y-axis being their information prediction error z-scores.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-prediction-error-z-scores" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="curiosity-writeup_files/figure-html/fig-prediction-error-z-scores-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5: The distributions of all participants’ z-scores of information prediction error (IPE) for each question. For each plot, the x-axis shows the session_id of each participant and the y-axis shows the z-scores of information prediction error (IPE) of each participant on that question. The z-scores range from -2 to 6. The more closely the dots are to each other, the less variations in prediction error there was for all participants on that question.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Similarly, the differences between the answers entered by participants and the correct answers in the last 10 trials of the experiment were standardized, and the distributions of all participants’ z-scores for their errors in each of the 10 questions were plotted in Figure 2., with the x-axis being 39 distinct participants and the y-axis being their trivia z-scores. However, since the 10 trivia questions were randomly generated for each participant, only 24 questions were tested across all participants.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-trivia-questions-z-scores" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="curiosity-writeup_files/figure-html/fig-trivia-questions-z-scores-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;6: The distributions of all participants’ z-scores of thier errors in remembering the correct answer for each question. For each plot, the x-axis shows the session_id of each participant and the y-axis shows the z-scores of each participant on that question. The z-scores range from -1 to 3. The more closely the dots are to each other, the less variations in prediction error there was for all participants on that question. Since questions were randomly selected for each participant, not all 30 questions were tested.If nothing is being plotted, it indicates that there was no variations between all participants’ errors in remembering the correct answer for that question, meaning that all participants got it correct.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="curiosity" class="level4">
+<h4 class="anchored" data-anchor-id="curiosity">Curiosity</h4>
+<p>To investigate the effect of the level of curiosity on both explicit and incidental memory, we retrieved each participant’s curiosity rating for each question when they first encountered it. We then converted these ratings into z-scores based on their curiosity of each question compared to their mean curiosity rating across all questions. This was necessary because it is not meaningful to compare a participant’s curiosity for a question with others’ curiosity ratings for the same question. Instead, it is more meaningful to compare the participant’s curiosity for the question with their own mean curiosity across other questions, since curiosity is a concept of internal motivation – others’ internal curiosity cannot affect the participant. A participant’s curiosity effects on their memory formation are therefore relative to its own baseline values, not to others’ curiosity values.</p>
+<p>The distributions of each participant’s curiosity z-scores are plotted in <a href="#fig-curiosity-z-scores">Figure&nbsp;7</a>., with the forty small plots representing the forty participants, every x-axis representing the 30 trivia questions, and every y-axis representing the participants’ curiosity z-scores. There were four participants that put the same curiosity rating for every question, generating zero variability in their data and therefore no z-scores:</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-curiosity-z-scores" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="curiosity-writeup_files/figure-html/fig-curiosity-z-scores-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;7: The distributions of all participants’ z-scores of thier curiosity scales across all 30 questions.For each plot, the x-axis shows the stimulus key of each question and the y-axis shows the z-scores of the participant’s curiosity level on that question. The z-scores range from -5 to 2.5. The more closely the dots are to each other, the less variations in prediction error there was for all questions for the participant. If nothing is plotted, it indicates that the participant was consistently curious across all questions, meaning that they put the same number on the scale as their curiosity level for each trivia.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-prior-knowledge-z-scores" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="curiosity-writeup_files/figure-html/fig-prior-knowledge-z-scores-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8: The distributions of all questions’ z-scores of participants’ prior knowledge ratings across all 40 participants. For each plot, the x-axis shows the session ID of each participant and the y-axis shows the z-scores of the participants’ curiosity level for that question. The z-scores range from -5 to 2.5. The more closely the dots are to each other, the less variations in prediction error there was for all questions for the participant. If nothing is plotted, it indicates that all participants were indicated that they have the same level of prior knowledge for the question, meaning that all of them put the same number on the scale as their prior knowledge level for the question</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="mixed-effects-models" class="level3">
+<h3 class="anchored" data-anchor-id="mixed-effects-models">Mixed Effects Models</h3>
+<section id="explicit-memory" class="level4">
+<h4 class="anchored" data-anchor-id="explicit-memory">Explicit Memory</h4>
+<p>Two mixed effects models were conducted on the effects of curiosity, information prediction error and prior knowledge — one on explicit memory and the other on incidental memory. In the explicit memory model, we found no significant effect of either participants’ curiosity ratings (p = 0.514) or their IPEs (0.053) on their trivia recall accuracies as a measure of explicit memory. We did find a significant effect of their prior knowledge ratings (p = 0.027), as well as a significant interaction effect between prior knowledge and IPE (p = 0.006), on explicit memory. In other words, the effect of IPE on the explicit memory performance depends on the level of prior knowledge, and the effect is stronger for participants with higher levels of prior knowledge. Curiosity, on the other hand, does not depend on the participant’s level of prior knowledge to influence the performance in recalling the correct answers to the trivia questions (p = 0.853).&nbsp;</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; font-weight: bold; width: 20vw; border-right: 1px solid black;">&nbsp;</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black;">z_score_trivia</th>
+</tr>
+<tr>
+<td style=" color: red; border-bottom:1px solid black; font-weight: bold; width: 20vw; border-right: 1px solid black;">Predictors</td>
+<td style=" color: red; border-bottom:1px solid black; width: 10vw; text-align: center;">Estimates</td>
+<td style=" color: red; border-bottom:1px solid black; width: 10vw; text-align: center;">CI</td>
+<td style=" color: red; border-bottom:1px solid black; width: 10vw; text-align: center;">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.13&nbsp;–&nbsp;0.19</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.683</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score curiosity</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.04</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.09&nbsp;–&nbsp;0.17</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.514</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score IPE</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.13</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.00&nbsp;–&nbsp;0.27</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.053</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score prior knowledge</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.18</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.02&nbsp;–&nbsp;0.35</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;"><strong>0.027</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score curiosity × z<br>score IPE</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.13&nbsp;–&nbsp;0.16</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.827</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score curiosity × z<br>score prior knowledge</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.16&nbsp;–&nbsp;0.14</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.853</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score IPE × z score<br>prior knowledge</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.23</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.07&nbsp;–&nbsp;0.39</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;"><strong>0.006</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">(z score curiosity × z<br>score IPE) × z score<br>prior knowledge</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.06&nbsp;–&nbsp;0.16</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.371</td>
+</tr>
+<tr>
+<td colspan="4" style="border-top: 1px solid blue;">Random Effects</td>
+</tr>
+
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">σ<sup>2</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.73</td>
+</tr>
+
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">τ<sub>00</sub> <sub>session_id</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.10</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">τ<sub>11</sub> <sub>session_id.z_score_curiosity</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.00</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">τ<sub>11</sub> <sub>session_id.z_score_IPE</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.00</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">τ<sub>11</sub> <sub>session_id.z_score_prior_knowledge</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.00</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">ρ<sub>01</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">1.00</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">1.00</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">1.00</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">N <sub>session_id</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">36</td>
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center; border-top:1px solid;" colspan="3">253</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">Marginal R<sup>2</sup> / Conditional R<sup>2</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.060 / NA</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+<p>The distribution of z-scores for the errors in the last 10 trivia questions against the z-scores of prior knowledge was plotted in <a href="#fig-prior-knowledge-explicit-regression">Figure&nbsp;9</a> with a best-fit line.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-prior-knowledge-explicit-regression" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="curiosity-writeup_files/figure-html/fig-prior-knowledge-explicit-regression-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;9: Illustration of the regression plot between prior knowledge and explicit knowledge. As shown, there is a very slight positive correlation such that a higher prior knowledge leads to a higher error rate in recalling the trivia answers, i.e.&nbsp;poorer explicit memory formation.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="incidental-memory" class="level4">
+<h4 class="anchored" data-anchor-id="incidental-memory">Incidental Memory</h4>
+<p>In the incidental memory model, we failed to find any significant effect of participants’ curiosity ratings (p = 0.987), IPEs (p = 0.972), and the level of prior knowledge regarding the questions (p = 0.820) on their performance in recalling the incidental patterns they have seen before in the first part of the experiment. Nor were any interactions between these independent variables found to have a significant effect on the incidental memory.&nbsp;</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; font-weight: bold; width: 20vw; border-right: 1px solid black;">&nbsp;</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black;">fractal_correct</th>
+</tr>
+<tr>
+<td style=" color: red; border-bottom:1px solid black; font-weight: bold; width: 20vw; border-right: 1px solid black;">Predictors</td>
+<td style=" color: red; border-bottom:1px solid black; width: 10vw; text-align: center;">Estimates</td>
+<td style=" color: red; border-bottom:1px solid black; width: 10vw; text-align: center;">CI</td>
+<td style=" color: red; border-bottom:1px solid black; width: 10vw; text-align: center;">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.77</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.71&nbsp;–&nbsp;0.82</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score curiosity</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.05&nbsp;–&nbsp;0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.987</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score IPE</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.07&nbsp;–&nbsp;0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.972</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score prior knowledge</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.06&nbsp;–&nbsp;0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.820</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score curiosity × z<br>score IPE</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.02&nbsp;–&nbsp;0.09</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.218</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score curiosity × z<br>score prior knowledge</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.05&nbsp;–&nbsp;0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.872</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">z score IPE × z score<br>prior knowledge</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.08&nbsp;–&nbsp;0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.559</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; width: 20vw; border-right: 1px solid black;">(z score curiosity × z<br>score IPE) × z score<br>prior knowledge</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">-0.07&nbsp;–&nbsp;0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  width: 10vw; text-align: center;">0.743</td>
+</tr>
+<tr>
+<td colspan="4" style="border-top: 1px solid blue;">Random Effects</td>
+</tr>
+
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">σ<sup>2</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.17</td>
+</tr>
+
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">τ<sub>00</sub> <sub>session_id</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.01</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">τ<sub>11</sub> <sub>session_id.z_score_curiosity</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.00</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">τ<sub>11</sub> <sub>session_id.z_score_IPE</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.00</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">τ<sub>11</sub> <sub>session_id.z_score_prior_knowledge</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.00</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">ρ<sub>01</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">-0.33</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">-0.01</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.07</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">N <sub>session_id</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">36</td>
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center; border-top:1px solid;" colspan="3">360</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: blue; border-top-width: 1px;">Marginal R<sup>2</sup> / Conditional R<sup>2</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; color: blue; border-top-width: 1px; text-align:center;" colspan="3">0.009 / NA</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>This study aimed to investigate the effects of prediction error as well as the effects of curiosity on memory performance, both explicitly and incidentally. However, the study failed to provide support for both hypotheses. The mixed effects model failed to explain the variability in the performance of explicit memory and incidental memory based on curiosity, IPE and prior knowledge. The only significant effects found were of prior knowledge on explicit memory and the interaction effect between prior knowledge and IPE on explicit memory respectively,</p>
+<p>Since significant previous research suggests that curiosity affects explicit memory of a stimulus <span class="citation" data-cites="kang2009 gruber2014 fernández2016">(<a href="#ref-kang2009" role="doc-biblioref">Kang et al. 2009</a>; <a href="#ref-gruber2014" role="doc-biblioref">Gruber, Gelman, and Ranganath 2014</a>; <a href="#ref-fernández2016" role="doc-biblioref">Fernández, Boccia, and Pedreira 2016</a>)</span>, there are a few potential explanations for why this study did not find this effect. To start, in the second (surprise!) round of trivia questions (our operationalization of explicit memory), participants received a random selection of the thirty questions they had already seen, but these were not restricted to questions that they had initially provided incorrect guesses for. This means for many questions in the trivia recall round, the participants’ answers are not actually reflecting memory formation from seeing the questions the first time in the first part (trivia) of the experiment. Since they may have gotten the question right the first time around, they may instead have known about it and its answer prior to the experiment. Notably, this unintentional experimental design flaw likely impacted our analysis of prediction error’s effect on explicit memory as well, since the prediction is not actually a prediction, but already an accurate recall of the answer.</p>
+<p>Additionally, while we deliberately sought out trivia questions that 1) had numerical responses, 2) varied in the number of digits in the response and in relative difficulty, 3) pertained to a broad number of categories, including: science/technology, art/entertainment, literature, nature/animals, culture, history, religion, geography, food, and sports, and 4) were representative of the diverse backgrounds and cultures of people in the United States potentially participating in the experiment, we failed to consider that there were three pairs of questions with the same numerical responses. For example, the answers to “How many native species of kangaroos are found in Australia?” and “How many main islands make up Japan?” were both 4. Due to our blunder of not labeling every question in the trivia recall round through the stimulus program, we had to add in those labels based on their correct answers post-hoc, so we could not correctly label those that share the same correct answer as another. This means when we attempted to match participants’ numerical responses in the second round of trivia questions to their initial curiosities about that question, we were also unable to do so for the six questions with duplicate responses. Furthermore, we did not get z-scores for the following three questions because every participant who received these in their second round of questioning got them correct, and thus the standard deviations were zero: “How many bones is a human baby born with?” (300 because I know you’re curious!), “What year did the Berlin Wall fall?” (1989; maybe you knew that one), and “What year did the Titanic sink?” (1912; maybe you knew that one too). Interestingly, the standard deviations for these questions were not zero in the initial testing round, indicating that they were certainly not ‘giveaway’ questions. While we cannot be sure as to why this may have occurred, we predict that for the Berlin Wall and Titanic questions, participants who initially got it wrong were somewhat close to the correct answer (maybe something of a tip-of-the-brain experience), and, thus, when presented with the opportunity to guess again, got it correct. This is unfortunate, but possible (even likely!) when analyzing a phenomenon like memory that is affected by a lot more than just curiosity. However, we do not think this is the case for Baby Bones, and it is even possible that all of these people were initially really curious about this question, later got it correct; and then, much later, we realized that the lack of standard deviation meant that we did not get a z-score for a question that might have been really valuable in our analysis of explicit memory, both for curiosity and prediction error.&nbsp;&nbsp;</p>
+<p>In terms of our methodological choices for curiosity, we assessed participants’ curiosity using a Likert Scale presented immediately after one assessing prior knowledge. After a participant selected a number for prior knowledge, the next screen, measuring curiosity, automatically began with the same number selected. This could have resulted in a situation where a participant who wanted to save time was inclined to keep the same selection for curiosity, even if it was actually different from their prior knowledge estimation. And, even if they were not in a damn rush to get their $4, making a selection after a choice has been already made is very different from making a clean selection. It feels like ‘changing your answer,’ even though this is curiosity, not your sixth grade social studies test. These are some of the possible reasons why we did not find an (expected) effect of curiosity on explicit memory, and a (less expected, but still possible) effect of prediction error on explicit memory.&nbsp;</p>
+<p>Finally, previous research that found an effect of curiosity on incidental memory <span class="citation" data-cites="gruber2014">(<a href="#ref-gruber2014" role="doc-biblioref">Gruber, Gelman, and Ranganath 2014</a>)</span>, used faces as their incidental stimuli, while we used colorful fractal images. We believed that faces were too obvious as an incidental stimulus, and that using a colorful, flippable card on a bright blue background would be less obvious (but not totally ignorable: more like medium-obvious, of course). It is impossible to obtain a perfectly ‘incidental’ stimulus, and, thus, it is impossible to determine whether the lack of a significant effect of curiosity or prediction error on incidental memory in this study was due to the choice of stimulus, other timing, background, or participant confounds, or because curiosity does not, in fact, affect incidental memory.&nbsp;</p>
+<p>In addition to the above considerations, there are a number of future research studies that can be conducted to further investigate the possible effects of prediction error and curiosity on memory. A research team with more funding and the ability to carry out in-person research could easily improve the power of this study by utilizing a larger sample size, generating an experiment with many more questions in all three sections, and re-recruiting participants a few days (rather than ten minutes) later for the memory assessment. As always, an independent, unbiased replication of this study is also extremely valuable in determining the validity of our findings. Finally, multiple types of incidental memory stimuli must be considered to determine which, if any, are affected by curiosity. We cannot declare that curiosity affects incidental memory if this is only the case for faces, or another very particular type of stimulus. Ultimately, this kind of exploration has the capacity to expand our understanding of how prediction error, curiosity, and memory fit into broader research about human information processing and decision making.</p>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-fernández2016" class="csl-entry" role="doc-biblioentry">
+Fernández, Rodrigo S., Mariano M. Boccia, and María E. Pedreira. 2016. <span>“The Fate of Memory: Reconsolidation and the Case of Prediction Error.”</span> <em>Neuroscience &amp; Biobehavioral Reviews</em> 68 (September): 423–41. <a href="https://doi.org/10.1016/j.neubiorev.2016.06.004">https://doi.org/10.1016/j.neubiorev.2016.06.004</a>.
+</div>
+<div id="ref-gruber2014" class="csl-entry" role="doc-biblioentry">
+Gruber, Matthias J., Bernard D. Gelman, and Charan Ranganath. 2014. <span>“States of Curiosity Modulate Hippocampus-Dependent Learning via the Dopaminergic Circuit.”</span> <em>Neuron</em> 84 (2): 486–96. <a href="https://doi.org/10.1016/j.neuron.2014.08.060">https://doi.org/10.1016/j.neuron.2014.08.060</a>.
+</div>
+<div id="ref-kang2009" class="csl-entry" role="doc-biblioentry">
+Kang, Min Jeong, Ming Hsu, Ian M. Krajbich, George Loewenstein, Samuel M. McClure, Joseph Tao-yi Wang, and Colin F. Camerer. 2009. <span>“The Wick in the Candle of Learning: Epistemic Curiosity Activates Reward Circuitry and Enhances Memory.”</span> <em>Psychological Science</em> 20 (8): 963–73. <a href="https://doi.org/10.1111/j.1467-9280.2009.02402.x">https://doi.org/10.1111/j.1467-9280.2009.02402.x</a>.
+</div>
+<div id="ref-vanlieshout2020" class="csl-entry" role="doc-biblioentry">
+Lieshout, Lieke LF van, Floris P de Lange, and Roshan Cools. 2020. <span>“Why so Curious? Quantifying Mechanisms of Information Seeking.”</span> <em>Current Opinion in Behavioral Sciences</em>, Curiosity (Explore vs Exploit), 35 (October): 112–17. <a href="https://doi.org/10.1016/j.cobeha.2020.08.005">https://doi.org/10.1016/j.cobeha.2020.08.005</a>.
+</div>
+<div id="ref-marvin2016" class="csl-entry" role="doc-biblioentry">
+Marvin, Caroline B., and Daphna Shohamy. 2016. <span>“Curiosity and Reward: Valence Predicts Choice and Information Prediction Errors Enhance Learning.”</span> <em>Journal of Experimental Psychology: General</em> 145: 266–72. <a href="https://doi.org/10.1037/xge0000140">https://doi.org/10.1037/xge0000140</a>.
+</div>
+<div id="ref-schapiro2012" class="csl-entry" role="doc-biblioentry">
+Schapiro, Anna C., Lauren V. Kustner, and Nicholas B. Turk-Browne. 2012. <span>“Shaping of Object Representations in the Human Medial Temporal Lobe Based on Temporal Regularities.”</span> <em>Current Biology</em> 22 (17): 1622–27. <a href="https://doi.org/10.1016/j.cub.2012.06.056">https://doi.org/10.1016/j.cub.2012.06.056</a>.
+</div>
+<div id="ref-sumiya2020" class="csl-entry" role="doc-biblioentry">
+Sumiya, Motofumi, and Kentaro Katahira. 2020. <span>“Surprise Acts as a Reducer of Outcome Value in Human Reinforcement Learning.”</span> <em>Frontiers in Neuroscience</em> 14. <a href="https://www.frontiersin.org/articles/10.3389/fnins.2020.00852">https://www.frontiersin.org/articles/10.3389/fnins.2020.00852</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
